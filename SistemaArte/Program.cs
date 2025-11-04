@@ -6,6 +6,10 @@ class Program
 {
     static void Main()
     {
+        Console.OutputEncoding = System.Text.Encoding.UTF8; // para bordas ║═╗
+        Console.SetWindowSize(Math.Min(150, Console.LargestWindowWidth), Math.Min(40, Console.LargestWindowHeight));
+        Console.SetBufferSize(Math.Min(150, Console.LargestWindowWidth), Math.Min(40, Console.LargestWindowHeight));
+
         Tela tela = new Tela();
         UsuarioCRUD usuarioCRUD = new UsuarioCRUD(tela);
         List<string> opcoes = new List<string>
