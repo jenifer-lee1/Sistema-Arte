@@ -8,19 +8,19 @@
     "net9.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Usuario\\.nuget\\packages\\": {}
+    "C:\\Users\\forte\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Usuario\\OneDrive - Católica SC\\Área de Trabalho\\oficial\\Sistema-Arte\\SistemaArte\\SistemaArte.csproj",
+      "projectUniqueName": "C:\\Users\\forte\\Documents\\GitHub\\Sistema-Obras-de-Arte\\SistemaArte\\SistemaArte.csproj",
       "projectName": "SistemaArte",
-      "projectPath": "C:\\Users\\Usuario\\OneDrive - Católica SC\\Área de Trabalho\\oficial\\Sistema-Arte\\SistemaArte\\SistemaArte.csproj",
-      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Usuario\\OneDrive - Católica SC\\Área de Trabalho\\oficial\\Sistema-Arte\\SistemaArte\\obj\\",
+      "projectPath": "C:\\Users\\forte\\Documents\\GitHub\\Sistema-Obras-de-Arte\\SistemaArte\\SistemaArte.csproj",
+      "packagesPath": "C:\\Users\\forte\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\forte\\Documents\\GitHub\\Sistema-Obras-de-Arte\\SistemaArte\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\forte\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -65,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.303/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
