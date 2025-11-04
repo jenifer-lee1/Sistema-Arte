@@ -173,7 +173,7 @@ public class Tela
         return resp;
     }
 
-    // 🟦 NOVO MÉTODO - Tela inicial do sistema de leilão (no padrão do professor)
+    // 🔹 Tela inicial simplificada (sem obras em destaque)
     public string MostrarTelaInicial(List<string> opcoes, int ci, int li)
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
