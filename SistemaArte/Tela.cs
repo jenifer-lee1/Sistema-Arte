@@ -4,165 +4,201 @@ using System.Threading;
 
 public class Tela
 {
-    private string titulo;
-    private List<string> opcoes;
+    //
+    // propriedades
+    //
+    private int largura;
+    private int altura;
+    private int colunaInicial;
+    private int linhaInicial;
+    private bool telaCheia;
 
-    public Tela(string titulo, List<string> opcoes)
+    //
+    // métodos
+    //
+
+    // Construtor usado para "full screen"
+    public Tela()
     {
-        this.titulo = titulo;
-        this.opcoes = opcoes;
+        this.largura = 80;
+        this.altura = 25;
+        this.colunaInicial = 0;
+        this.linhaInicial = 0;
+        this.telaCheia = true;
     }
 
-    public void Mostrar()
+    // Construtor usado para telas menores
+    public Tela(int coluna, int linha, int largura, int altura)
     {
-        Console.Title = titulo.ToUpper();
-        Console.CursorVisible = false;
-        Console.BackgroundColor = ConsoleColor.Black;
-        Console.ForegroundColor = ConsoleColor.DarkBlue;
-        Console.Clear();
-
-        EfeitoConfeteRapido();         // efeito confete
-        MostrarArteCentralizada();     // exibe a arte
-        Thread.Sleep(4000);            // mantém a arte por 4 segundos
-        Console.Clear();
-
-        MostrarMenu();                 // mostra o menu com moldura
+        this.largura = largura;
+        this.altura = altura;
+        this.colunaInicial = coluna;
+        this.linhaInicial = linha;
+        this.telaCheia = false;
     }
 
-    private void EfeitoConfeteRapido()
+    // Prepara a tela principal com moldura e título
+    public void PrepararTela(string titulo = "")
     {
-        Random random = new Random();
-        int largura = Console.WindowWidth;
-        int altura = Console.WindowHeight;
-        char[] simbolos = { '*', '+', '.', 'o', '@', '#' };
+        this.MontarMoldura(this.colunaInicial, this.linhaInicial,
+            this.colunaInicial + this.largura, this.linhaInicial + this.altura);
 
-        DateTime inicio = DateTime.Now;
-        TimeSpan duracao = TimeSpan.FromMilliseconds(2000);
-        while (DateTime.Now - inicio < duracao)
+        if (this.telaCheia)
         {
-            int x = random.Next(0, largura);
-            int y = random.Next(0, altura);
-            ConsoleColor cor = (ConsoleColor)random.Next(1, 16);
-            char simbolo = simbolos[random.Next(simbolos.Length)];
+            this.MontarMoldura(this.colunaInicial, this.linhaInicial,
+                this.colunaInicial + this.largura, this.linhaInicial + 2);
 
-            Console.ForegroundColor = cor;
-            Console.SetCursorPosition(x, y);
-            Console.Write(simbolo);
-
-            Thread.Sleep(4);
+            this.MontarMoldura(this.colunaInicial, this.linhaInicial + this.altura - 2,
+                this.colunaInicial + this.largura, this.linhaInicial + this.altura);
         }
 
-        Console.Clear();
+        this.Centralizar(this.colunaInicial, this.colunaInicial + this.largura,
+            this.linhaInicial + 1, titulo);
     }
 
-    private void MostrarArteCentralizada()
+    // Mostra o menu com moldura e lê a opção do usuário
+    public string MostrarMenu(List<string> ops, int ci, int li)
     {
-        string arte = @"
-::────────────────────────────────────────────────────────────────────────────::
-::                            BEM VINDOS AO                                   ::
-::              SISTEMA DE CURADORIA DE ARTE E LEILÕES ONLINE                 ::
-::                                                                            ::
-::                                                                            ::
-::              []                                       []                   ::
-::              []                                       []                   ::
-::             .[]:.                                 ,: :[]:.                 ::
-::           .: []: :-.                           ,-: : :[]: :.               ::
-::         .: : []: : :`._                   _.,': : : : []: : :.             ::
-::       .: : : []: : : : :-._           _.-: : : : : : :[]: : : :.           ::
-::___..: : : :  []: : : : : : :-._____.-: : : : : : : : :[]: : : : :-.________::
-::!_!!_!_!_!_!_!_![]!_!_!_!_!_!_!_!_!_!_!_!_!_!_!_!_!_!_!_![]!_!_!_!_!_!_!_!!_! ::
-::!!!!!!!!!!!!! []!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!![]!!!!!!!!!!!!!!!!!!!::
-::^^^^^^^^^^^^^^[]^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[]^^^^^^^^^^^^^^^^^^^::
-::              []                                       []                   ::
-::              []                                       []                   ::
-::              []                                       []                   ::
-::              []                                       []                   ::
-:: ~ ~- ^ ~ ~- /  \~^-~^~_~^-~_^~-^~_^~~-^~_~^~-~_~-^~_^/  \~^-~_~^- ~ ~- ^ ~ ::
-::~ _~~-~ _~~- ~^-^~-^~~- ^~_^-^~~_ -~^_ -~_-~~^- _~~_~-^_ ~^-^~~-_^-~ ~^~ _~~::
-:: ~ ^-  ~ ^- ~ ^- _~~_-  ~~ _ ~  ^~  - ~~^ _ -  ^~-  ~ _  ~~^  - ~_   - ~^_~ ::
-::  ~-  ^_ ~-  ^_  ~^ -  ^~ _ - ~^~ _   _~^~-  _ ~~^ - _ ~ - _ ~~^ -  ~-  ^_  ::
-::  ~^ -_~^ -_ ~^^ -_ ~ _ - _ ~^~-  _~ -_   ~- _ ~^ _ -  ~ ^-  ~^ -_  ~^ -_   ::
-:: ~^~ - ~^~ - ~^~ - ~^~ - ~^~ ~^~ - _ ^ - ~~~ _ - _ ~-^ ~ __- ~_ - ~  ~^_- ~^::
-::  ~ ~- ^ ~ ~- ^ ~ ~- ^ ~ ~- ^ ~ ~- ^ ~ ~- ^ ~ ~- ^ ~ ~- ^ ~ ~- ^ ~ ~- ^ ~ ~-::
-::────────────────────────────────────────────────────────────────────────────::
-";
+        int cf, lf, linha;
+        cf = ci + ops[0].Length + 20;
+        lf = li + ops.Count + 3;
 
-        int larguraConsole = Console.WindowWidth;
-        int alturaConsole = Console.WindowHeight;
-        string[] linhas = arte.Split('\n');
-        int inicioVertical = Math.Max((alturaConsole - linhas.Length) / 2, 0);
+        this.MontarMoldura(ci, li, cf, lf);
 
-        Console.ForegroundColor = ConsoleColor.DarkGreen;
-        for (int i = 0; i < linhas.Length; i++)
+        linha = li + 1;
+        for (int i = 0; i < ops.Count; i++)
         {
-            string linha = linhas[i];
-            int posHorizontal = Math.Max((larguraConsole - linha.Length) / 2, 0);
-            Console.SetCursorPosition(posHorizontal, inicioVertical + i);
-            Console.WriteLine(linha);
+            Console.SetCursorPosition(ci + 2, linha);
+            Console.Write(ops[i]);
+            linha++;
+        }
+
+        Console.SetCursorPosition(ci + 2, linha);
+        Console.Write("Digite a opção: ");
+        string op = Console.ReadLine();
+        return op;
+    }
+
+    // Centraliza texto horizontalmente dentro de uma moldura
+    public void Centralizar(int ci, int cf, int lin, string msg)
+    {
+        int col = (cf - ci - msg.Length) / 2 + ci;
+        Console.SetCursorPosition(col, lin);
+        Console.Write(msg);
+    }
+
+    // Apaga uma área específica do console
+    public void ApagarArea(int ci, int li, int cf, int lf)
+    {
+        for (int coluna = ci; coluna <= cf; coluna++)
+        {
+            for (int linha = li; linha <= lf; linha++)
+            {
+                Console.SetCursorPosition(coluna, linha);
+                Console.Write(" ");
+            }
         }
     }
 
-    private void MostrarMenu()
+    // Monta uma moldura de linhas duplas
+    public void MontarMoldura(int ci, int li, int cf, int lf)
+    {
+        int col, lin;
+        this.ApagarArea(ci, li, cf, lf);
+
+        // Linhas horizontais
+        for (col = ci; col < cf; col++)
+        {
+            Console.SetCursorPosition(col, li);
+            Console.Write("═");
+            Console.SetCursorPosition(col, lf);
+            Console.Write("═");
+        }
+
+        // Linhas verticais
+        for (lin = li; lin < lf; lin++)
+        {
+            Console.SetCursorPosition(ci, lin);
+            Console.Write("║");
+            Console.SetCursorPosition(cf, lin);
+            Console.Write("║");
+        }
+
+        // Cantos
+        Console.SetCursorPosition(ci, li); Console.Write("╔");
+        Console.SetCursorPosition(cf, li); Console.Write("╗");
+        Console.SetCursorPosition(ci, lf); Console.Write("╚");
+        Console.SetCursorPosition(cf, lf); Console.Write("╝");
+    }
+
+    // Monta uma janela com título e dados
+    public void MontarJanela(string titulo, List<string> dados, int coluna, int linha, int largura)
+    {
+        this.MontarMoldura(coluna, linha, coluna + largura, linha + dados.Count + 3);
+        this.Centralizar(coluna, coluna + largura, linha + 1, titulo);
+        linha += 2;
+        for (int i = 0; i < dados.Count; i++)
+        {
+            Console.SetCursorPosition(coluna + 2, linha);
+            Console.Write(dados[i]);
+            linha++;
+        }
+    }
+
+    // Mostra mensagem na parte inferior da tela
+    public void MostrarMensagem(string msg)
+    {
+        this.ApagarArea(this.colunaInicial + 1,
+            this.linhaInicial + this.altura - 1,
+            this.colunaInicial + this.largura - 1,
+            this.linhaInicial + this.altura - 1);
+
+        int coluna = (this.largura - msg.Length) / 2;
+        Console.SetCursorPosition(coluna, this.linhaInicial + this.altura - 1);
+        Console.Write(msg);
+    }
+
+    // Mostra mensagem em uma posição específica
+    public void MostrarMensagem(int coluna, int linha, string msg)
+    {
+        Console.SetCursorPosition(coluna, linha);
+        Console.Write(msg);
+    }
+
+    // Pergunta algo ao usuário e retorna a resposta
+    public string Perguntar(string pergunta)
+    {
+        this.MostrarMensagem(pergunta);
+        string resp = Console.ReadLine();
+        return resp;
+    }
+
+    // 🟦 NOVO MÉTODO - Tela inicial do sistema de leilão (no padrão do professor)
+    public string MostrarTelaInicial(List<string> opcoes, int ci, int li)
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         Console.Clear();
 
-        string[] linhas =
-        {
-        "┌─────────────────────────────────────────────┐",
-        "│            Sistema de Leilão                │",
-        "├─────────────────────────────────────────────┤",
-        "│                                             │",
-        "│  Digite qual deseja:                        │",
-        "│ ┌─────────────────────────────────────────┐ │"
-    };
+        // Moldura principal
+        this.PrepararTela("SISTEMA DE CURADORIA DE ARTE E LEILÕES ONLINE");
 
-        // exibe as linhas iniciais centralizadas
-        foreach (string linha in linhas)
-        {
-            int posX = (Console.WindowWidth - linha.Length) / 2;
-            Console.SetCursorPosition(posX, Console.CursorTop);
-            Console.WriteLine(linha);
-        }
+        // Moldura do menu
+        this.MontarMoldura(ci, li, ci + 35, li + opcoes.Count + 5);
+        Console.SetCursorPosition(ci + 2, li + 1);
+        Console.Write("Digite qual deseja:");
 
-        // exibe opções numeradas centralizadas
+        int linha = li + 2;
         for (int i = 0; i < opcoes.Count; i++)
         {
-            string linhaOpcao = $"│ │ {i + 1} - {opcoes[i],-35} │ │";
-            int posX = (Console.WindowWidth - linhaOpcao.Length) / 2;
-            Console.SetCursorPosition(posX, Console.CursorTop);
-            Console.WriteLine(linhaOpcao);
+            Console.SetCursorPosition(ci + 3, linha);
+            Console.Write(opcoes[i]);
+            linha++;
         }
 
-        // linha de digitar opção
-        string linhaDigite = "│ │ Digite:                                 | │";
-        int posXD = (Console.WindowWidth - linhaDigite.Length) / 2;
-        Console.SetCursorPosition(posXD, Console.CursorTop);
-        Console.WriteLine(linhaDigite);
+        Console.SetCursorPosition(ci + 3, linha);
+        Console.Write("Digite: ");
+        string op = Console.ReadLine();
 
-        // linhas abaixo
-        string[] linhasObras =
-        {
-        "│ └─────────────────────────────────────────┘ │",
-        "│                                             │",
-        "│  Obras em Destaque (Disponíveis para Lance):│",
-        "│ ┌──────────────────────────────────────────┐│",
-        "│ │v Obra: \"A Tempestade\" | Artista: X.X.X.││ ",
-        "│ │Lance Atual: R$ 5.000,00 | [Dar Lance]    ││",
-        "│ │                                          ││",
-        "│ │v Obra: \"Quadro Antigo\" | Artista: Y.Y. |│",
-        "│ │Lance Atual: R$ 12.500,00 | [Dar Lance]   ││",
-        "│ │                                          ││",
-        "│ │x Obra: \"Escultura Rara\" | Artista: Z.Z |│",
-        "│ │Status: Vendida | Preço Final: R$ 20.000  ││",
-        "│ └──────────────────────────────────────────┘│",
-    };
-
-        foreach (string linha in linhasObras)
-        {
-            int posX = (Console.WindowWidth - linha.Length) / 2;
-            Console.SetCursorPosition(posX, Console.CursorTop);
-            Console.WriteLine(linha);
-        }
+        return op;
     }
 }
