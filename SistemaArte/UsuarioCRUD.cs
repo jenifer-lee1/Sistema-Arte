@@ -165,10 +165,10 @@ namespace SistemaArte
             var u = this.usuarios[this.posicao];
 
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 1, u.nome);
+            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 5, u.id.ToString());
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 2, u.email);
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 3, u.telefone);
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 4, u.tipoUsuario);
-            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 5, u.id.ToString());
         }
     }
 }

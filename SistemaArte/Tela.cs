@@ -21,8 +21,8 @@ namespace SistemaArte
         // Construtor padrão (tela cheia)
         public Tela()
         {
-            this.largura = 80;
-            this.altura = 25;
+            this.largura = 100;
+            this.altura = 30;
             this.colunaInicial = 0;
             this.linhaInicial = 0;
             this.telaCheia = true;
@@ -59,7 +59,7 @@ namespace SistemaArte
         {
             int cf, lf, linha;
             cf = ci + ops[0].Length + 3;
-            lf = li + ops.Count + 4;
+            lf = li + ops.Count + 2;
 
             this.MontarMoldura(ci, li, cf, lf);
 
