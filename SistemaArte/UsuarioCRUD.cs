@@ -57,11 +57,11 @@ namespace SistemaArte
 
             if (!achou)
             {
-                resp = this.tela.Perguntar("Usuário não encontrado. Deseja cadastrar (S/N): ");
+                resp = this.tela.Perguntar("Usuário não encontrado. Deseja cadastrar? (S/N): ");
                 if (resp.ToLower() == "s")
                 {
                     this.EntrarDados(2);
-                    resp = this.tela.Perguntar("Confirmar cadastro (S/N): ");
+                    resp = this.tela.Perguntar("Confirmar cadastro? (S/N): ");
                     if (resp.ToLower() == "s")
                     {
                         this.usuarios.Add(
