@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using SistemaArte;
 
 class Program
 {
     static void Main()
     {
         Tela tela = new Tela();
+        UsuarioCRUD usuarioCRUD = new UsuarioCRUD(tela);
         List<string> opcoes = new List<string>
         {
             "1 - Acessar área do Usuário",
@@ -22,12 +24,12 @@ class Program
         while (true)
         {
             tela.PrepararTela("Sistema de Curadoria de Arte e Leilões Online");
-            opcao = tela.MostrarTelaInicial(opcoes, 2, 2);
+            opcao = tela.MostrarMenu(opcoes, 2, 2);
 
             if (opcao == "0")
                 break;
 
-            else if (opcao == "1") ExecutarCRUD("Usuário");
+            else if (opcao == "1") usuarioCRUD.ExecutarCRUD();
             else if (opcao == "2") ExecutarCRUD("Obra");
             else if (opcao == "3") ExecutarCRUD("Avaliação");
             else if (opcao == "4") ExecutarCRUD("Lance");
