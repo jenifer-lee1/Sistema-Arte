@@ -4,29 +4,32 @@ namespace SistemaArte
     {
         //propriedades
         public string nome;
+        public string id;
         public string email;
         public string telefone;
         public string tipoUsuario;
-        public int id;
+
 
 
         //Construtor
         public Usuario()
         {
+
             this.nome = "";
+            this.id = "";
             this.email = "";
             this.telefone = "";
             this.tipoUsuario = "";
-            this.id = 0;
+
         }
 
-        public Usuario(string nome, string email, string telefone, string tipoUsuario, int id)
+        public Usuario(string nome, string id, string email, string telefone, string tipoUsuario)
         {
             this.nome = nome;
+            this.id = id;
             this.email = email;
             this.telefone = telefone;
             this.tipoUsuario = tipoUsuario;
-            this.id = id;
 
         }
     }

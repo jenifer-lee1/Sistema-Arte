@@ -58,8 +58,8 @@ namespace SistemaArte
         public string MostrarMenu(List<string> ops, int ci, int li)
         {
             int cf, lf, linha;
-            cf = ci + ops[0].Length + 1;
-            lf = li + ops.Count + 2;
+            cf = ci + ops[0].Length + 3;
+            lf = li + ops.Count + 4;
 
             this.MontarMoldura(ci, li, cf, lf);
 

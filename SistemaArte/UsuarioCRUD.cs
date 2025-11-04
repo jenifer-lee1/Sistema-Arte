@@ -1,8 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace SistemaArte
 {
     public class UsuarioCRUD
     {
-        // Propriedades
         private List<Usuario> usuarios;
         private Usuario usuario;
         private int posicao;
@@ -11,48 +14,47 @@ namespace SistemaArte
         private int larguraDados, colunaDados, linhaDados;
         private Tela tela;
 
-        // Construtor
         public UsuarioCRUD(Tela tela)
         {
             this.usuarios = new List<Usuario>();
             this.usuario = new Usuario();
             this.posicao = -1;
 
-            // Inicializar vetor com perguntas
+            // Campos que serão exibidos
             this.dados.Add("Nome:");
+            this.dados.Add("ID do Usuário:");
             this.dados.Add("Email:");
             this.dados.Add("Telefone:");
-            this.dados.Add("Tipo de Usuário:");
-            this.dados.Add("ID do Usuário:");
+            this.dados.Add("Tipo de Usuário [(Comprador)/(Vendedor)/(Curador)]:");
 
-            // Indica onde está o objeto Tela
             this.tela = tela;
 
-            // Define a posição e largura da janela
-            this.coluna = 15;
-            this.linha = 5;
-            this.largura = 50;
+            this.coluna = 5;
+            this.linha = 12;
+            this.largura = 70;
 
-            // Calcula a área dos dados
-            this.larguraDados = this.largura - dados[0].Length - 2;
-            this.colunaDados = this.coluna + dados[0].Length + 1;
+            // Calcular posições com base no maior rótulo
+            int maiorLabel = this.dados.Max(d => d.Length);
+            this.colunaDados = this.coluna + maiorLabel + 2;
+            this.larguraDados = this.largura - maiorLabel - 6;
             this.linhaDados = this.linha + 2;
 
-            // Teste com usuários pré-cadastrados
-            this.usuarios.Add(new Usuario("Ana Silva", "ana@gmail.com", "47995498241", "Comprador", 45151));
-            this.usuarios.Add(new Usuario("Bruno Souza", "bruno@gmail.com", "47995498242", "Vendedor", 145152));
+            // Usuários para teste
+            this.usuarios.Add(new Usuario("Ana Silva", "12352", "ana@gmail.com", "47995498241", "Comprador"));
+            this.usuarios.Add(new Usuario("Bruno Souza", "12353", "bruno@gmail.com", "47995498242", "Vendedor"));
         }
 
         public void ExecutarCRUD()
         {
             string resp;
 
-            // Montar a janela do CRUD
+            // Montar janela abaixo do menu
             this.tela.MontarJanela("Cadastro de Usuários", this.dados, this.coluna, this.linha, this.largura);
 
-            // Algoritmo do CRUD
+            // Entrada e verificação
             this.EntrarDados(1);
             bool achou = this.ProcurarCodigo();
+
             if (!achou)
             {
                 resp = this.tela.Perguntar("Usuário não encontrado. Deseja cadastrar (S/N): ");
@@ -65,24 +67,25 @@ namespace SistemaArte
                         this.usuarios.Add(
                             new Usuario(
                                 this.usuario.nome,
+                                this.usuario.id,
                                 this.usuario.email,
                                 this.usuario.telefone,
-                                this.usuario.tipoUsuario,
-                                this.usuario.id
+                                this.usuario.tipoUsuario
                             )
                         );
                         this.tela.MostrarMensagem("Usuário cadastrado com sucesso! Pressione uma tecla para continuar...");
                         Console.ReadKey();
                     }
                 }
-            }
+            } // 👈 ESSE estava faltando (fecha o if (!achou))
+
             else
             {
                 this.MostrarDados();
                 resp = this.tela.Perguntar("Deseja alterar, excluir ou voltar (A/E/V): ");
                 if (resp.ToLower() == "a")
                 {
-                    this.tela.MontarJanela("Alteração de Usuário", this.dados, this.coluna, this.linha + this.dados.Count + 2, this.largura);
+                    this.tela.MontarJanela("Alteração de Usuário", this.dados, this.coluna, this.linha + this.dados.Count + 3, this.largura);
                     this.tela.MostrarMensagem("Informe os novos dados");
                     this.EntrarDados(2, true);
                     resp = this.tela.Perguntar("Confirma alteração (S/N): ");
@@ -110,70 +113,47 @@ namespace SistemaArte
         {
             if (qual == 1)
             {
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados);
+                // Pega o comprimento do rótulo "Nome:" e posiciona logo depois dele
+                Console.SetCursorPosition(this.coluna + this.dados[0].Length + 1, this.linha + 2);
                 this.usuario.nome = Console.ReadLine();
             }
             else
             {
-                // Se for alteração, desloca a linha para a "segunda tela"
                 int deslocamentoLinha = alteracao ? this.dados.Count + 2 : 0;
 
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 1);
+                // Cada campo usa o tamanho do respectivo rótulo
+                Console.SetCursorPosition(this.coluna + this.dados[0].Length + 1, this.linha + 2 + deslocamentoLinha);
                 this.usuario.nome = Console.ReadLine();
 
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 2);
+                Console.SetCursorPosition(this.coluna + this.dados[1].Length + 1, this.linha + 3 + deslocamentoLinha);
+                this.usuario.id = Console.ReadLine();
+
+                Console.SetCursorPosition(this.coluna + this.dados[2].Length + 1, this.linha + 4 + deslocamentoLinha);
                 this.usuario.email = Console.ReadLine();
 
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 3);
+                Console.SetCursorPosition(this.coluna + this.dados[3].Length + 1, this.linha + 5 + deslocamentoLinha);
                 this.usuario.telefone = Console.ReadLine();
 
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 4);
-                Console.Write("Escolha o tipo de usuário (1-Comprador / 2-Vendedor / 3-Curador): ");
-                string escolha = Console.ReadLine();
-                switch (escolha)
-                {
-                    case "1": this.usuario.tipoUsuario = "Comprador"; break;
-                    case "2": this.usuario.tipoUsuario = "Vendedor"; break;
-                    case "3": this.usuario.tipoUsuario = "Curador"; break;
-                    default: this.usuario.tipoUsuario = "Indefinido"; break;
-                }
-
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 5);
-                this.usuario.id = int.Parse(Console.ReadLine());
+                Console.SetCursorPosition(this.coluna + this.dados[4].Length + 1, this.linha + 6 + deslocamentoLinha);
+                this.usuario.tipoUsuario = Console.ReadLine();
             }
         }
+
+
 
         public bool ProcurarCodigo()
         {
-            bool encontrei = false;
             for (int i = 0; i < this.usuarios.Count; i++)
             {
-                if (this.usuario.nome == this.usuarios[i].nome)
+                if (this.usuario.nome.Equals(this.usuarios[i].nome, StringComparison.OrdinalIgnoreCase))
                 {
-                    encontrei = true;
                     this.posicao = i;
-                    break;
+                    return true;
                 }
             }
-            return encontrei;
+            return false;
         }
 
-        public string ObterNomePorEmail(string email)
-        {
-            this.usuario.email = email;
-            bool achou = this.ProcurarCodigo();
-            if (achou)
-            {
-                return this.usuarios[this.posicao].nome;
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        // === Mantido 100% igual ao seu modelo ===
-        // ...existing code...
         public void MostrarDados()
         {
             if (this.posicao < 0 || this.posicao >= this.usuarios.Count)
@@ -190,6 +170,5 @@ namespace SistemaArte
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 4, u.tipoUsuario);
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 5, u.id.ToString());
         }
-
     }
 }
