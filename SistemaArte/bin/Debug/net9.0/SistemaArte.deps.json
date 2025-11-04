@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "SistemaArte/1.0.0": {
+        "runtime": {
+          "SistemaArte.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SistemaArte/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

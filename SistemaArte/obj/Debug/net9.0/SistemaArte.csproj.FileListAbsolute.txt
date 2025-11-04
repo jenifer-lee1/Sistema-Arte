@@ -1,0 +1,58 @@
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\bin\Debug\net9.0\SistemaArte.exe
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\bin\Debug\net9.0\SistemaArte.deps.json
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\bin\Debug\net9.0\SistemaArte.runtimeconfig.json
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\bin\Debug\net9.0\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\bin\Debug\net9.0\SistemaArte.pdb
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.AssemblyInfoInputs.cache
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.AssemblyInfo.cs
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\refint\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.pdb
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.genruntimeconfig.cache
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\ref\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.AssemblyInfoInputs.cache
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.AssemblyInfo.cs
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\refint\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.pdb
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\bin\Debug\net9.0\SistemaArte.exe
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\bin\Debug\net9.0\SistemaArte.deps.json
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\bin\Debug\net9.0\SistemaArte.runtimeconfig.json
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\bin\Debug\net9.0\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\bin\Debug\net9.0\SistemaArte.pdb
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\SistemaArte.genruntimeconfig.cache
+C:\Users\Usuario\OneDrive - Católica SC\Arquivos de Chat do Microsoft Teams\Área de Trabalho\SistemArte\SistemaArte\obj\Debug\net9.0\ref\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\bin\Debug\net9.0\SistemaArte.exe
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\bin\Debug\net9.0\SistemaArte.deps.json
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\bin\Debug\net9.0\SistemaArte.runtimeconfig.json
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\bin\Debug\net9.0\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\bin\Debug\net9.0\SistemaArte.pdb
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.AssemblyInfoInputs.cache
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.AssemblyInfo.cs
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.sourcelink.json
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\obj\Debug\net9.0\refint\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.pdb
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.genruntimeconfig.cache
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Arte\SistemaArte\obj\Debug\net9.0\ref\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\bin\Debug\net9.0\SistemaArte.exe
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\bin\Debug\net9.0\SistemaArte.deps.json
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\bin\Debug\net9.0\SistemaArte.runtimeconfig.json
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\bin\Debug\net9.0\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\bin\Debug\net9.0\SistemaArte.pdb
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.AssemblyInfoInputs.cache
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.AssemblyInfo.cs
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.sourcelink.json
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\obj\Debug\net9.0\refint\SistemaArte.dll
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.pdb
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\obj\Debug\net9.0\SistemaArte.genruntimeconfig.cache
+C:\Users\Usuario\OneDrive - Católica SC\Área de Trabalho\oficial\Sistema-Obras-de-Arte\SistemaArte\obj\Debug\net9.0\ref\SistemaArte.dll
