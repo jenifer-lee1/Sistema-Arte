@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using SistemaArte;
 
 namespace SistemaArte
 {
@@ -8,20 +7,24 @@ namespace SistemaArte
     {
         static void Main()
         {
-
             Tela tela = new Tela();
             UsuarioCRUD usuarioCRUD = new UsuarioCRUD(tela);
-            ObraCRUD obraCRUD = new ObraCRUD(tela);
+
+            ObraCRUD obraCRUD = new ObraCRUD(tela);           // instância única do CRUD de obras
+            AvaliarCRUD avaliarCRUD = new AvaliarCRUD(tela, obraCRUD); // mesma instância passada
+
+            LanceCRUD lanceCRUD = new LanceCRUD(tela, obraCRUD, usuarioCRUD);
+
             List<string> opcoes = new List<string>
-        {
-            "1 - Acessar área do Usuário",
-            "2 - Cadastro de Obras de Arte",
-            "3 - Avaliação de Obras",
-            "4 - Registro de Lances",
-            "5 - Pagamento",
-            "6 - Relatórios",
-            "0 - Sair do Sistema"
-        };
+            {
+                "1 - Acessar área do Usuário",
+                "2 - Cadastro de Obras de Arte",
+                "3 - Avaliação de Obras",
+                "4 - Registro de Lances",
+                "5 - Pagamento",
+                "6 - Relatórios",
+                "0 - Sair do Sistema"
+            };
 
             string opcao = "";
 
@@ -32,10 +35,10 @@ namespace SistemaArte
 
                 if (opcao == "0")
                     break;
-
                 else if (opcao == "1") usuarioCRUD.ExecutarCRUD();
                 else if (opcao == "2") obraCRUD.ExecutarCRUD();
-                else if (opcao == "4") ExecutarCRUD("Lance");
+                else if (opcao == "3") avaliarCRUD.ExecutarCRUD();  // Corrigido
+                else if (opcao == "4") lanceCRUD.ExecutarCRUD();    // Corrigido
                 else if (opcao == "5") ExecutarCRUD("Pagamento");
                 else if (opcao == "6") ExecutarCRUD("Relatório");
                 else

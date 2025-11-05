@@ -1,26 +1,27 @@
 public class Obra
 {
     // propriedades
-    public int id;
+    public string id;
     public string nome;
     public string autor;
-    public int ano;
-    public int numero;
+    public string ano;
+    public string numero;
     public string estado;
 
     // construtor
     public Obra()
     {
-        this.id = 0;
+        this.id = "";
         this.nome = "";
-        this.ano = 0;
-        this.numero = 0;
+        this.autor = "";
+        this.ano = "";
+        this.numero = "";
         this.estado = "";
 
     }
 
 
-    public Obra(int id, string nome, string autor, int ano, int numero, string estado)
+    public Obra(string id, string nome, string autor, string ano, string numero, string estado)
     {
         this.id = id;
         this.nome = nome;

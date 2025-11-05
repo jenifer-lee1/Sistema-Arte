@@ -13,6 +13,7 @@ namespace SistemaArte
         private int larguraDados, colunaDados, linhaDados;
         private Tela tela;
 
+
         public ObraCRUD(Tela tela)
         {
             this.obras = new List<Obra>();
@@ -37,13 +38,15 @@ namespace SistemaArte
             this.linhaDados = this.linha + 2;
 
             // dados iniciais
-            this.obras.Add(new Obra(12505, "Monalisa", "Leonardo da Vinci", 1503, 1001, "Original"));
-            this.obras.Add(new Obra(12506, "O Grito", "Edvard Munch", 1893, 1002, "Original"));
+            this.obras.Add(new Obra("12505", "Monalisa", "Leonardo da Vinci", "1503", "1001", "Original"));
+            this.obras.Add(new Obra("12506", "O Grito", "Edvard Munch", "1893", "1002", "Original"));
         }
 
         public void ExecutarCRUD()
         {
             string resp;
+
+            // montar a janela do CRUD
             this.tela.MontarJanela("Cadastro de Obras", this.dados, this.coluna, this.linha, this.largura);
 
             // algoritmo CRUD
@@ -51,7 +54,7 @@ namespace SistemaArte
             bool achou = this.ProcurarCodigo();
             if (!achou)
             {
-                resp = this.tela.Perguntar(" Obra não encontrada. Deseja cadastrar (S/N) : ");
+                resp = this.tela.Perguntar("Id da Obra não encontrada. Deseja cadastrar (S/N) : ");
                 if (resp.ToLower() == "s")
                 {
                     this.EntrarDados(2);
@@ -64,13 +67,13 @@ namespace SistemaArte
                     }
                 }
             }
-            else
+            else // if (achou)
             {
                 this.MostrarDados();
                 resp = this.tela.Perguntar("Deseja alterar, excluir ou voltar (A/E/V) : ");
                 if (resp.ToLower() == "a")
                 {
-                    this.tela.MontarJanela("Alteração de Obra", this.dados, this.coluna, this.linha + this.dados.Count + 2, this.largura);
+                    this.tela.MontarJanela("Alteração de Obras", this.dados, this.coluna, this.linha + this.dados.Count + 2, this.largura);
                     this.tela.MostrarMensagem("Informe os novos dados");
                     this.EntrarDados(2, true);
                     resp = this.tela.Perguntar("Confirma alteração (S/N) : ");
@@ -93,43 +96,40 @@ namespace SistemaArte
                 }
             }
         }
+
+
         public void EntrarDados(int qual, bool alteracao = false)
         {
             if (qual == 1)
             {
                 Console.SetCursorPosition(this.colunaDados, this.linhaDados);
-                this.obra.id = int.Parse(Console.ReadLine());
+                this.obra.id = Console.ReadLine();
             }
             else
             {
+                // se for alteração, desloca a linha para a "segunda tela"
                 int deslocamentoLinha = alteracao ? this.dados.Count + 2 : 0;
 
                 Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 1);
-                this.obra.id = int.Parse(Console.ReadLine());
-
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 2);
                 this.obra.nome = Console.ReadLine();
-
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 3);
+                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 2);
                 this.obra.autor = Console.ReadLine();
-
+                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 3);
+                this.obra.ano = Console.ReadLine();
                 Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 4);
-                this.obra.ano = int.Parse(Console.ReadLine());
-
+                this.obra.numero = Console.ReadLine();
                 Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 5);
-                this.obra.numero = int.Parse(Console.ReadLine());
-
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 6);
                 this.obra.estado = Console.ReadLine();
             }
         }
+
 
         public bool ProcurarCodigo()
         {
             bool encontrei = false;
             for (int i = 0; i < this.obras.Count; i++)
             {
-                if (this.obras[i].id == this.obra.id)
+                if (this.obra.id == this.obras[i].id)
                 {
                     encontrei = true;
                     this.posicao = i;
@@ -139,14 +139,33 @@ namespace SistemaArte
             return encontrei;
         }
 
+
+
+        public string ObterNomePorId(string id)
+        {
+            this.obra.id = id;
+            bool achou = this.ProcurarCodigo();
+            if (achou)
+            {
+                return this.obras[this.posicao].nome;
+            }
+            else
+            {
+                return "";
+            }
+        }
+        public List<Obra> ListarObras()
+        {
+            return this.obras;
+        }
+
         public void MostrarDados()
         {
-            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 1, this.obras[this.posicao].id.ToString());
-            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 2, this.obras[this.posicao].nome);
-            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 3, this.obras[this.posicao].autor);
-            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 4, this.obras[this.posicao].ano.ToString());
-            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 5, this.obras[this.posicao].numero.ToString());
-            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 6, this.obras[this.posicao].estado);
+            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 1, this.obras[this.posicao].nome);
+            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 2, this.obras[this.posicao].autor);
+            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 3, this.obras[this.posicao].ano);
+            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 4, this.obras[this.posicao].numero);
+            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 5, this.obras[this.posicao].estado);
         }
 
     }
