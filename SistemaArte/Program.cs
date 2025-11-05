@@ -9,16 +9,13 @@ namespace SistemaArte
         {
             Tela tela = new Tela();
             UsuarioCRUD usuarioCRUD = new UsuarioCRUD(tela);
-
-            ObraCRUD obraCRUD = new ObraCRUD(tela);           // instância única do CRUD de obras
-            AvaliarCRUD avaliarCRUD = new AvaliarCRUD(tela, obraCRUD); // mesma instância passada
-
+            ObraCRUD obraCRUD = new ObraCRUD(tela);
             LanceCRUD lanceCRUD = new LanceCRUD(tela, obraCRUD, usuarioCRUD);
 
             List<string> opcoes = new List<string>
             {
                 "1 - Acessar área do Usuário",
-                "2 - Cadastro de Obras de Arte",
+                "2 - Cadastro de Obras",
                 "3 - Avaliação de Obras",
                 "4 - Registro de Lances",
                 "5 - Pagamento",
@@ -37,8 +34,8 @@ namespace SistemaArte
                     break;
                 else if (opcao == "1") usuarioCRUD.ExecutarCRUD();
                 else if (opcao == "2") obraCRUD.ExecutarCRUD();
-                else if (opcao == "3") avaliarCRUD.ExecutarCRUD();  // Corrigido
-                else if (opcao == "4") lanceCRUD.ExecutarCRUD();    // Corrigido
+                else if (opcao == "3") ExecutarCRUD("Obra");
+                else if (opcao == "4") lanceCRUD.ExecutarCRUD();
                 else if (opcao == "5") ExecutarCRUD("Pagamento");
                 else if (opcao == "6") ExecutarCRUD("Relatório");
                 else

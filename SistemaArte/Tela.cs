@@ -135,14 +135,9 @@
 
     public void MontarJanela(string titulo, List<string> dados, int coluna, int linha, int largura)
     {
-        // Aumenta um pouco a largura total da moldura
-        int larguraAjustada = largura + 10;
-
-        this.MontarMoldura(coluna, linha, coluna + larguraAjustada, linha + dados.Count + 2);
-        this.Centralizar(coluna, coluna + larguraAjustada, linha + 1, titulo);
-
+        this.MontarMoldura(coluna, linha, coluna + largura, linha + dados.Count + 2);
+        this.Centralizar(coluna, coluna + largura, linha + 1, titulo);
         linha += 2;
-
         for (int i = 0; i < dados.Count; i++)
         {
             Console.SetCursorPosition(coluna + 1, linha);
