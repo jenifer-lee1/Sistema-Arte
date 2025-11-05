@@ -1,37 +1,33 @@
 public class Obra
 {
     // propriedades
+    public int id;
     public string nome;
     public string autor;
-    public string codigo;
-    public int anoCriacao;
-    public int valor;
-    // métodos
-    public Obra(string cod, string tit, string aut, int ano, int val)
-    {
-        codigo = cod;
-        nome = tit;
-        autor = aut;
-        anoCriacao = ano;
-        valor = val;
-    }
+    public int ano;
+    public int numero;
+    public string estado;
 
+    // construtor
     public Obra()
     {
-        this.codigo = "";
+        this.id = 0;
         this.nome = "";
-        this.autor = "";
-        this.anoCriacao = 0;
-        this.valor = 0;
+        this.ano = 0;
+        this.numero = 0;
+        this.estado = "";
+
     }
-    public void ImprimirDados()
+
+
+    public Obra(int id, string nome, string autor, int ano, int numero, string estado)
     {
-        Console.WriteLine("Dados do Obra:");
-        Console.WriteLine($"Código da Obra    : {codigo}");
-        Console.WriteLine($"Nome            : {nome}");
-        Console.WriteLine($"Autor/Pintor       : {autor}");
-        Console.WriteLine($"Ano de Criação : {anoCriacao}");
-        Console.WriteLine($"Valor : {valor}");
-        Console.WriteLine("");
+        this.id = id;
+        this.nome = nome;
+        this.autor = autor;
+        this.ano = ano;
+        this.numero = numero;
+        this.estado = estado;
+
     }
 }

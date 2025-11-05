@@ -21,6 +21,9 @@ namespace SistemaArte
         // Construtor padrão (tela cheia)
         public Tela()
         {
+            Console.SetWindowSize(120, 40);
+            Console.SetBufferSize(120, 40);
+
             this.largura = 100;
             this.altura = 33;
             this.colunaInicial = 0;
