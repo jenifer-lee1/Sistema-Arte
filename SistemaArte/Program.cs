@@ -14,6 +14,7 @@ namespace SistemaArte
             AvaliarCRUD avaliarCRUD = new AvaliarCRUD(tela, obraCRUD, usuarioCRUD);
             LanceCRUD lanceCRUD = new LanceCRUD(tela, obraCRUD, usuarioCRUD);
             VendaCRUD vendaCRUD = new VendaCRUD(tela, obraCRUD, avaliarCRUD, usuarioCRUD);
+            RelatorioCRUD relatorioCRUD = new RelatorioCRUD(tela, obraCRUD, lanceCRUD, vendaCRUD);
 
             List<string> opcoes = new List<string>
             {
@@ -40,7 +41,7 @@ namespace SistemaArte
                 else if (opcao == "3") avaliarCRUD.ExecutarCRUD();
                 else if (opcao == "4") lanceCRUD.ExecutarCRUD();
                 else if (opcao == "5") vendaCRUD.ExecutarCRUD();
-                else if (opcao == "6") ExecutarCRUD("Relatório");
+                else if (opcao == "6") relatorioCRUD.ExecutarCRUD();
                 else
                 {
                     tela.MostrarMensagem("Opção inválida. Pressione uma tecla para continuar...");
