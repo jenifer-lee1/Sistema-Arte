@@ -1,35 +1,38 @@
-public class EmprestimoCRUD
+public class LanceCRUD
 {
-    public List<Emprestimo> emprestimos;
-    public Emprestimo emprestimo;
+    public List<Lance> lance;
+    public Lance lance;
     public int posicao;
     private List<string> dados;
     private int coluna, linha, largura;
     private int larguraDados, colunaDados, linhaDados;
     private Tela tela;
-    private LivroCRUD livroCRUD;
-    private AlunoCRUD alunoCRUD;
+    private ObraCRUD obraCRUD;
+    private UsuarioCRUD usuarioCRUD;
+    /////
+    /// 
+    ///  arrumar acima ^ e abaixo >
 
 
 
 
-    public EmprestimoCRUD(Tela tela, ObraCRUD obraCRUD, UsuarioCRUD usuarioCRUD)
+    public LanceCRUD(Tela tela, ObraCRUD obraCRUD, /*UsuarioCRUD usuarioCRUD*/)
     {
-        this.emprestimos = new List<Emprestimo>();
-        this.emprestimo = new Emprestimo();
+        this.lances = new List<Lances>();
+        this.lance = new Lance();
         this.posicao = -1;
 
         this.dados = new List<string>();
         this.dados.Add("ID              : ");
-        this.dados.Add("ISBN            : ");
-        this.dados.Add("Matrícula       : ");
-        this.dados.Add("Data Empréstimo : ");
-        this.dados.Add("Data Devolver   : ");
-        this.dados.Add("Data Devolvido  : ");
+        this.dados.Add("Codigo Comprador: ");
+        this.dados.Add("Valor           : ");
+        this.dados.Add("Data Lance      : ");
+       // this.dados.Add("Data Devolver   : ");
+        //this.dados.Add("Data Devolvido  : ");
 
         this.tela = tela;
-        this.livroCRUD = livroCRUD;
-        this.alunoCRUD = alunoCRUD;
+        this.obraCRUD = obraCRUD;
+        this.usuarioCRUD = usuarioCRUD;
 
         this.coluna = 10;
         this.linha = 5;
