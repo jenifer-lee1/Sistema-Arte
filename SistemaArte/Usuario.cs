@@ -2,7 +2,7 @@ public class Usuario
 {
     // propriedades
     public string nome;
-    public string id;
+    public int id;
     public string email;
     public string telefone;
     public string TipoUsuario;
@@ -11,17 +11,17 @@ public class Usuario
     public Usuario()
     {
         this.nome = "";
-        this.id = "";
+        this.id = 0;
         this.email = "";
         this.telefone = "";
         this.TipoUsuario = "";
     }
 
 
-    public Usuario(string id, string nome, string email, string telefone, string TipoUsuario)
+    public Usuario(string nome, int id, string email, string telefone, string TipoUsuario)
     {
-        this.id = id;
         this.nome = nome;
+        this.id = id;
         this.email = email;
         this.telefone = telefone;
         this.TipoUsuario = TipoUsuario;
