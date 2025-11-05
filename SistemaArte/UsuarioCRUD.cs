@@ -29,11 +29,11 @@ namespace SistemaArte
             this.posicao = -1;                   // inicializa o "ponteiro"
 
             // ordem dos campos: Nome primeiro, depois ID
-            this.dados.Add("Nome       : ");
-            this.dados.Add("ID         : ");
-            this.dados.Add("E-mail     : ");
-            this.dados.Add("Telefone   : ");
-            this.dados.Add("Tipo Usuário (Curador/Vendedor/Comprador) : ");
+            this.dados.Add("Nome                                       : ");
+            this.dados.Add("ID                                         : ");
+            this.dados.Add("E-mail                                     : ");
+            this.dados.Add("Telefone                                   : ");
+            this.dados.Add("Tipo Usuário (Curador/Vendedor/Comprador)  : ");
 
             this.tela = tela;
 
