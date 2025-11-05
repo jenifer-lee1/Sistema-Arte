@@ -14,6 +14,33 @@ public class AvaliarCRUD
     private ObraCRUD obraCRUD;
     private UsuarioCRUD usuarioCRUD;
 
+    // Construtor para inicializar dependências e estruturas
+    public AvaliarCRUD(Tela tela, ObraCRUD obraCRUD, UsuarioCRUD usuarioCRUD)
+    {
+        this.avaliacao = new List<Avaliar>();
+        this.avaliar = new Avaliar();
+        this.posicao = -1;
+
+        this.dados = new List<string>();
+        this.dados.Add("ID");
+        this.dados.Add("ID Obra");
+        this.dados.Add("Curador");
+        this.dados.Add("Preço Reserva");
+        this.dados.Add("Observações");
+
+        this.tela = tela;
+        this.obraCRUD = obraCRUD;
+        this.usuarioCRUD = usuarioCRUD;
+
+        this.coluna = 8;
+        this.linha = 8;
+        this.largura = 80;
+
+        this.larguraDados = this.largura - (this.dados.Count > 0 ? this.dados[0].Length : 10) - 2;
+        this.colunaDados = this.coluna + (this.dados.Count > 0 ? this.dados[0].Length : 10) + 1;
+        this.linhaDados = this.linha + 2;
+    }
+
     public void ExecutarCRUD()
     {
         string opcao, resp;
