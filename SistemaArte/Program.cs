@@ -7,9 +7,11 @@ namespace SistemaArte
     {
         static void Main()
         {
+
             Tela tela = new Tela();
             UsuarioCRUD usuarioCRUD = new UsuarioCRUD(tela);
             ObraCRUD obraCRUD = new ObraCRUD(tela);
+            AvaliarCRUD avaliarCRUD = new AvaliarCRUD(tela, obraCRUD, usuarioCRUD);
             LanceCRUD lanceCRUD = new LanceCRUD(tela, obraCRUD, usuarioCRUD);
 
             List<string> opcoes = new List<string>
@@ -34,7 +36,7 @@ namespace SistemaArte
                     break;
                 else if (opcao == "1") usuarioCRUD.ExecutarCRUD();
                 else if (opcao == "2") obraCRUD.ExecutarCRUD();
-                else if (opcao == "3") ExecutarCRUD("Obra");
+                else if (opcao == "3") avaliarCRUD.ExecutarCRUD();
                 else if (opcao == "4") lanceCRUD.ExecutarCRUD();
                 else if (opcao == "5") ExecutarCRUD("Pagamento");
                 else if (opcao == "6") ExecutarCRUD("Relatório");

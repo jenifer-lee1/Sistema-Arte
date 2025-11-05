@@ -28,7 +28,7 @@ namespace SistemaArte
             this.tela = tela;
 
             this.coluna = 8;
-            this.linha = 14;
+            this.linha = 10;
             this.largura = 80;
 
             this.larguraDados = this.largura - dados[0].Length - 2;
@@ -191,6 +191,19 @@ namespace SistemaArte
                 this.tela.MontarJanela("Dados do Comprador", camposComprador, this.coluna, linhaExtra, this.largura);
             }
         }
+
+        public string ObterNomePorID(string id)
+        {
+            foreach (Usuario u in this.usuarios)
+            {
+                if (u.id.ToString() == id)
+                {
+                    return u.nome;
+                }
+            }
+            return "Usuário não encontrado";
+        }
+
 
     }
 }
