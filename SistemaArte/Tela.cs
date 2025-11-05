@@ -21,8 +21,8 @@ namespace SistemaArte
         // Construtor padrão (tela cheia)
         public Tela()
         {
-            this.largura = 90;
-            this.altura = 30;
+            this.largura = 100;
+            this.altura = 33;
             this.colunaInicial = 0;
             this.linhaInicial = 0;
             this.telaCheia = true;

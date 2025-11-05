@@ -1,14 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 namespace SistemaArte
 {
     public class UsuarioCRUD
     {
-        //
-        // Propriedades
-        //
         private List<Usuario> usuarios;
         private Usuario usuario;
         private int posicao;
@@ -17,18 +13,12 @@ namespace SistemaArte
         private int larguraDados, colunaDados, linhaDados;
         private Tela tela;
 
-
-        //
-        // Métodos
-        //
         public UsuarioCRUD(Tela tela)
         {
-            // propriedades para o CRUD
-            this.usuarios = new List<Usuario>(); // inicializa a coleção
-            this.usuario = new Usuario();        // inicializa o objeto
-            this.posicao = -1;                   // inicializa o "ponteiro"
+            this.usuarios = new List<Usuario>();
+            this.usuario = new Usuario();
+            this.posicao = -1;
 
-            // ordem dos campos: Nome primeiro, depois ID
             this.dados.Add("Nome                                       : ");
             this.dados.Add("ID                                         : ");
             this.dados.Add("E-mail                                     : ");
@@ -37,19 +27,18 @@ namespace SistemaArte
 
             this.tela = tela;
 
-            this.coluna = 15;
-            this.linha = 6;
+            this.coluna = 8;
+            this.linha = 14;
             this.largura = 80;
 
             this.larguraDados = this.largura - dados[0].Length - 2;
             this.colunaDados = this.coluna + dados[0].Length + 1;
             this.linhaDados = this.linha + 2;
 
-            // inclusão de dados iniciais
+            // dados iniciais
             this.usuarios.Add(new Usuario("Ana", 2025001, "ana@gmail.com", "123", "Vendedor"));
-            this.usuarios.Add(new Usuario("Gael", 2025002, "bruno@uol.com", "456", "Comprador"));
+            this.usuarios.Add(new Comprador("Gael", 2025002, "bruno@uol.com", "456", "9999-0000-1111-2222", "Banco XPTO") { tipoCartao = "Crédito" });
         }
-
 
         public void ExecutarCRUD()
         {
@@ -57,7 +46,6 @@ namespace SistemaArte
 
             this.tela.MontarJanela("Cadastro de Usuários", this.dados, this.coluna, this.linha, this.largura);
 
-            // entrada inicial — busca pelo nome
             this.EntrarDados(1);
             bool achou = this.ProcurarCodigo();
             if (!achou)
@@ -66,12 +54,18 @@ namespace SistemaArte
                 if (resp.ToLower() == "s")
                 {
                     this.EntrarDados(2);
+                    if (this.usuario.TipoUsuario.ToLower() == "comprador")
+                    {
+                        this.EntrarDadosComprador();
+                    }
+
                     resp = this.tela.Perguntar("Confirma cadastro (S/N) : ");
                     if (resp.ToLower() == "s")
                     {
-                        this.usuarios.Add(
-                            new Usuario(this.usuario.nome, this.usuario.id, this.usuario.email, this.usuario.telefone, this.usuario.TipoUsuario)
-                        );
+                        if (this.usuario is Comprador comprador)
+                            this.usuarios.Add(comprador);
+                        else
+                            this.usuarios.Add(this.usuario);
                     }
                 }
             }
@@ -84,6 +78,10 @@ namespace SistemaArte
                     this.tela.MontarJanela("Alteração de Usuário", this.dados, this.coluna, this.linha + this.dados.Count + 2, this.largura);
                     this.tela.MostrarMensagem("Informe os novos dados");
                     this.EntrarDados(2, true);
+                    if (this.usuario.TipoUsuario.ToLower() == "comprador")
+                    {
+                        this.EntrarDadosComprador();
+                    }
                     resp = this.tela.Perguntar("Confirma alteração (S/N) : ");
                     if (resp.ToLower() == "s")
                     {
@@ -105,7 +103,6 @@ namespace SistemaArte
             }
         }
 
-
         public void EntrarDados(int qual, bool alteracao = false)
         {
             if (qual == 1)
@@ -115,7 +112,6 @@ namespace SistemaArte
             }
             else
             {
-                // desloca se for alteração
                 int deslocamentoLinha = alteracao ? this.dados.Count + 2 : 0;
 
                 Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 1);
@@ -129,9 +125,37 @@ namespace SistemaArte
 
                 Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 4);
                 this.usuario.TipoUsuario = Console.ReadLine();
+
+                if (this.usuario.TipoUsuario.ToLower() == "comprador")
+                {
+                    this.usuario = new Comprador(this.usuario.nome, this.usuario.id, this.usuario.email, this.usuario.telefone, "", "");
+                }
             }
         }
 
+        // ✅ Tela extra para COMPRADOR (agora com tipo de cartão)
+        public void EntrarDadosComprador()
+        {
+            Comprador c = (Comprador)this.usuario;
+            List<string> campos = new List<string>();
+            campos.Add("Número do Cartão                         : ");
+            campos.Add("Nome do Banco                            : ");
+            campos.Add("Tipo do Cartão (Crédito/Débito)          : ");
+
+            int linhaExtra = this.linha + this.dados.Count + 5;
+            this.tela.MontarJanela("Dados do Comprador", campos, this.coluna, linhaExtra, this.largura);
+
+            Console.SetCursorPosition(this.coluna + campos[0].Length + 1, linhaExtra + 2);
+            c.numeroCartao = Console.ReadLine();
+
+            Console.SetCursorPosition(this.coluna + campos[1].Length + 1, linhaExtra + 3);
+            c.nomeBanco = Console.ReadLine();
+
+            Console.SetCursorPosition(this.coluna + campos[2].Length + 1, linhaExtra + 4);
+            c.tipoCartao = Console.ReadLine();
+
+            this.usuario = c;
+        }
 
         public bool ProcurarCodigo()
         {
@@ -148,13 +172,25 @@ namespace SistemaArte
             return encontrei;
         }
 
-
         public void MostrarDados()
         {
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 1, this.usuarios[this.posicao].id.ToString());
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 2, this.usuarios[this.posicao].email);
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 3, this.usuarios[this.posicao].telefone);
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 4, this.usuarios[this.posicao].TipoUsuario);
+
+            // ✅ Se for COMPRADOR, mostra moldura extra com os dados bancários
+            if (this.usuarios[this.posicao] is Comprador comp)
+            {
+                List<string> camposComprador = new List<string>();
+                camposComprador.Add("Número do Cartão                         : " + comp.numeroCartao);
+                camposComprador.Add("Nome do Banco                            : " + comp.nomeBanco);
+                camposComprador.Add("Tipo do Cartão (Crédito/Débito)          : " + comp.tipoCartao);
+
+                int linhaExtra = this.linha + this.dados.Count + 5;
+                this.tela.MontarJanela("Dados do Comprador", camposComprador, this.coluna, linhaExtra, this.largura);
+            }
         }
+
     }
 }

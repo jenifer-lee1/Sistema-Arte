@@ -1,228 +1,135 @@
-public class LanceCRUD
+using System;
+using System.Collections.Generic;
+
+namespace SistemaArte
 {
-    public List<Lance> lance;
-    public Lance lance;
-    public int posicao;
-    private List<string> dados;
-    private int coluna, linha, largura;
-    private int larguraDados, colunaDados, linhaDados;
-    private Tela tela;
-    private ObraCRUD obraCRUD;
-    private UsuarioCRUD usuarioCRUD;
-    /////
-    /// 
-    ///  arrumar acima ^ e abaixo >
-
-
-
-
-    public LanceCRUD(Tela tela, ObraCRUD obraCRUD, /*UsuarioCRUD usuarioCRUD*/)
+    public class LanceCRUD
     {
-        this.lances = new List<Lances>();
-        this.lance = new Lance();
-        this.posicao = -1;
+        public List<Lance> lances;   // lista de lances
+        public Lance lance;          // objeto lance atual
+        public int posicao;          // posição no vetor
+        private List<string> dados;
+        private int coluna, linha, largura;
+        private int larguraDados, colunaDados, linhaDados;
+        private Tela tela;
+        private ObraCRUD obraCRUD;
+        private UsuarioCRUD usuarioCRUD;
 
-        this.dados = new List<string>();
-        this.dados.Add("ID              : ");
-        this.dados.Add("Codigo Comprador: ");
-        this.dados.Add("Valor           : ");
-        this.dados.Add("Data Lance      : ");
-       // this.dados.Add("Data Devolver   : ");
-        //this.dados.Add("Data Devolvido  : ");
-
-        this.tela = tela;
-        this.obraCRUD = obraCRUD;
-        this.usuarioCRUD = usuarioCRUD;
-
-        this.coluna = 10;
-        this.linha = 5;
-        this.largura = 55;
-
-        this.larguraDados = this.largura - dados[0].Length - 2;
-        this.colunaDados = this.coluna + dados[0].Length + 1;
-        this.linhaDados = this.linha + 2;
-
-        this.emprestimos.Add(new Emprestimo(1, "1", "2025001", DateTime.Now.AddDays(-10), DateTime.Now.AddDays(5), null));
-        this.emprestimos.Add(new Emprestimo(2, "2", "2025002", DateTime.Now.AddDays(-5), DateTime.Now.AddDays(10), null));
-    }
-
-
-
-    public void ExecutarCRUD()
-    {
-        string opcao, resp;
-        List<string> opcoesEmp = new List<string>();
-        opcoesEmp.Add(" Empréstimos ");
-        opcoesEmp.Add("1 - Emprestar");
-        opcoesEmp.Add("2 - Devolver ");
-        opcoesEmp.Add("3 - Listar   ");
-        opcoesEmp.Add("0 - Sair     ");
-        while (true)
+        // Construtor recebendo as dependências
+        public LanceCRUD(Tela tela, ObraCRUD obraCRUD, UsuarioCRUD usuarioCRUD)
         {
-            opcao = tela.MostrarMenu(opcoesEmp, coluna, linha);
-            if (opcao == "0") break;
-            else if (opcao == "1" || opcao == "2")
+            this.lances = new List<Lance>();
+            this.lance = new Lance();
+            this.posicao = -1;
+
+            this.dados = new List<string>();
+            this.dados.Add("ID              : ");
+            this.dados.Add("Código Comprador: ");
+            this.dados.Add("Valor           : ");
+            this.dados.Add("Data do Lance   : ");
+
+            // Atribui as referências recebidas (sem criar novos objetos)
+            this.tela = tela;
+            this.obraCRUD = obraCRUD;
+            this.usuarioCRUD = usuarioCRUD;
+
+            this.coluna = 10;
+            this.linha = 5;
+            this.largura = 55;
+
+            this.larguraDados = this.largura - dados[0].Length - 2;
+            this.colunaDados = this.coluna + dados[0].Length + 1;
+            this.linhaDados = this.linha + 2;
+
+            // Exemplos de lances iniciais (pode remover se quiser começar vazio)
+            this.lances.Add(new Lance(1, "U001", 1500, DateTime.Now.AddDays(-2)));
+            this.lances.Add(new Lance(2, "U002", 1800, DateTime.Now.AddDays(-1)));
+        }
+
+        // Método principal
+        public void ExecutarCRUD()
+        {
+            string opcao, resp;
+            List<string> opcoesLance = new List<string>
             {
-                this.coluna += 10;
-                this.linha += 2;
-                this.colunaDados += 10;
-                this.linhaDados += 2;
+                " LANCES ",
+                "1 - Registrar Lance ",
+                "2 - Listar Lances   ",
+                "0 - Sair            "
+            };
 
-                string titulo = (opcao == "1") ? "Registrar Empréstimo" : "Registrar Devolução";
-                this.tela.MontarJanela(titulo, this.dados, this.coluna, this.linha, this.largura);
-                this.EntrarDados(1);
-                bool achou = this.ProcurarCodigo();
+            while (true)
+            {
+                opcao = tela.MostrarMenu(opcoesLance, coluna, linha);
+                if (opcao == "0") break;
 
-                if (opcao == "1" && achou)
+                if (opcao == "1")
                 {
-                    this.MostrarDados();
-                    this.tela.MostrarMensagem("Empréstimo já existe. Pressione uma tecla para continuar...");
-                    Console.ReadKey();
-                    this.tela.MostrarMensagem("");
-                }
-                else if (opcao == "1" && !achou)
-                {
-                    bool dadosValidos = this.EntrarDados(2);
-                    if (!dadosValidos) break;
-                    resp = this.tela.Perguntar("Confirma cadastro (S/N) : ");
+                    this.tela.MontarJanela("Registrar Lance", this.dados, this.coluna, this.linha, this.largura);
+                    this.EntrarDados();
+
+                    resp = this.tela.Perguntar("Confirma registro do lance (S/N): ");
                     if (resp.ToLower() == "s")
                     {
-                        this.emprestimos.Add(new Emprestimo(this.emprestimo.id, this.emprestimo.isbn, this.emprestimo.matricula, this.emprestimo.DataEmprestimo, this.emprestimo.DataDevolucao, null));
-                        this.tela.MostrarMensagem("Empréstimo registrado com sucesso! Pressione uma tecla para continuar...");
+                        this.lances.Add(new Lance(this.lance.id, this.lance.cod, this.lance.valor, this.lance.dataLance));
+                        this.tela.MostrarMensagem("Lance registrado com sucesso! Pressione uma tecla...");
                         Console.ReadKey();
                     }
+
+                    this.tela.ApagarArea(this.coluna, this.linha, this.coluna + this.largura, this.linha + this.dados.Count + 2);
                 }
-                else if (opcao == "2" && achou)
+                else if (opcao == "2")
                 {
-                    this.emprestimos[this.posicao].DataDevolvido = DateTime.Now;
-                    this.MostrarDados();
-                    this.tela.MostrarMensagem("Devolução registrada com sucesso! Pressione uma tecla para continuar...");
+                    this.ListarLances();
+                }
+                else
+                {
+                    tela.MostrarMensagem("Opção inválida. Pressione uma tecla para continuar...");
                     Console.ReadKey();
                 }
-                this.tela.ApagarArea(this.coluna, this.linha, this.coluna + this.largura, this.linha + this.dados.Count + 2);
-
-                this.coluna -= 10;
-                this.linha -= 2;
-                this.colunaDados -= 10;
-                this.linhaDados -= 2;
-
-            }
-            else if (opcao == "3")
-            {
-                this.ListarEmprestimos();
-                break;
-            }
-            else
-            {
-                tela.MostrarMensagem("Opção inválida. Pressione uma tecla para continuar...");
-                Console.ReadKey();
             }
         }
-    }
 
-
-    public bool EntrarDados(int qual, bool alteracao = false)
-    {
-        if (qual == 1)
+        // Entrar dados de lance
+        public void EntrarDados()
         {
             Console.SetCursorPosition(this.colunaDados, this.linhaDados);
-            this.emprestimo.id = int.Parse(Console.ReadLine());
-        }
-        else
-        {
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 1);
-            this.emprestimo.isbn = Console.ReadLine();
-            string tituloLivro = this.livroCRUD.ObterTituloPorISBN(this.emprestimo.isbn);
-            Console.SetCursorPosition(this.colunaDados + 4, this.linhaDados + 1);
-            Console.Write(tituloLivro);
+            this.lance.id = int.Parse(Console.ReadLine());
 
-            if (string.IsNullOrWhiteSpace(tituloLivro))
-            {
-                this.tela.MostrarMensagem("Livro não encontrado. Pressione uma tecla para continuar...");
-                Console.ReadKey();
-                return false;
-            }
+            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 1);
+            this.lance.cod = Console.ReadLine();
 
             Console.SetCursorPosition(this.colunaDados, this.linhaDados + 2);
-            this.emprestimo.matricula = Console.ReadLine();
-            string nomeAluno = this.alunoCRUD.ObterNomePorMatricula(this.emprestimo.matricula);
-            Console.SetCursorPosition(this.colunaDados + 4, this.linhaDados + 2);
-            Console.Write(nomeAluno);
-            if (string.IsNullOrWhiteSpace(nomeAluno))
-            {
-                this.tela.MostrarMensagem("Aluno não encontrado. Pressione uma tecla para continuar...");
-                Console.ReadKey();
-                return false;
-            }
+            this.lance.valor = int.Parse(Console.ReadLine());
 
             Console.SetCursorPosition(this.colunaDados, this.linhaDados + 3);
-            this.emprestimo.DataEmprestimo = DateTime.Parse(Console.ReadLine());
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 4);
-            this.emprestimo.DataDevolucao = DateTime.Parse(Console.ReadLine());
-            this.emprestimo.DataDevolvido = null;
+            this.lance.dataLance = DateTime.Parse(Console.ReadLine());
         }
-        return true;
-    }
 
-
-
-    public void ListarEmprestimos()
-    {
-        this.tela.PrepararTela("Listagem de Empréstimos");
-        this.tela.MostrarMensagem(1, 3, "ID   | ISBN     | Matrícula | Data Empréstimo | Data Devolução | Data Devolvido");
-        this.tela.MostrarMensagem(1, 4, "-----+----------+-----------+-----------------+----------------+---------------");
-        int linha =  5;
-        for (int i = 0; i < this.emprestimos.Count; i++)
+        // Listar lances
+        public void ListarLances()
         {
-            string dataDevolvidoStr = this.emprestimos[i].DataDevolvido.HasValue ? this.emprestimos[i].DataDevolvido.Value.ToString("dd/MM/yyyy") : "";
-            Console.SetCursorPosition(1, linha);
-            Console.Write(this.emprestimos[i].id);
-            Console.SetCursorPosition(8, linha);
-            Console.Write(this.emprestimos[i].isbn);
-            Console.SetCursorPosition(19, linha);
-            Console.Write(this.emprestimos[i].matricula);
-            Console.SetCursorPosition(31, linha);
-            Console.Write(this.emprestimos[i].DataEmprestimo.ToString("dd/MM/yyyy"));
-            Console.SetCursorPosition(49, linha);   
-            Console.Write(this.emprestimos[i].DataDevolucao.ToString("dd/MM/yyyy"));
-            Console.SetCursorPosition(66, linha);
-            Console.Write(dataDevolvidoStr);
-            linha++;
-        }
-        this.tela.MostrarMensagem("");
-        this.tela.MostrarMensagem("Pressione uma tecla para continuar...");
-        Console.ReadKey();  
-    }
+            this.tela.PrepararTela("Listagem de Lances");
+            this.tela.MostrarMensagem(1, 3, "ID   | Código | Valor  | Data do Lance ");
+            this.tela.MostrarMensagem(1, 4, "-----+---------+--------+---------------");
 
-
-
-    public bool ProcurarCodigo()
-    {
-        bool encontrei = false;
-        for (int i = 0; i < this.emprestimos.Count; i++)
-        {
-            if (this.emprestimo.id == this.emprestimos[i].id)
+            int linhaAtual = 5;
+            foreach (Lance l in this.lances)
             {
-                encontrei = true;
-                this.posicao = i;
-                break;
+                Console.SetCursorPosition(1, linhaAtual);
+                Console.Write(l.id);
+                Console.SetCursorPosition(8, linhaAtual);
+                Console.Write(l.cod);
+                Console.SetCursorPosition(18, linhaAtual);
+                Console.Write(l.valor);
+                Console.SetCursorPosition(28, linhaAtual);
+                Console.Write(l.dataLance.ToString("dd/MM/yyyy"));
+                linhaAtual++;
             }
+
+            this.tela.MostrarMensagem("");
+            this.tela.MostrarMensagem("Pressione uma tecla para continuar...");
+            Console.ReadKey();
         }
-        return encontrei;
     }
-
-
-    public void MostrarDados()
-    {
-        string livro = this.emprestimos[this.posicao].isbn + " - " + this.livroCRUD.ObterTituloPorISBN(this.emprestimos[this.posicao].isbn);
-        string aluno = this.emprestimos[this.posicao].matricula + " - " + this.alunoCRUD.ObterNomePorMatricula(this.emprestimos[this.posicao].matricula);
-        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 1, livro);
-        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 2, aluno);
-        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 3, this.emprestimos[this.posicao].DataEmprestimo.ToString("dd/MM/yyyy"));
-        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 4, this.emprestimos[this.posicao].DataDevolucao.ToString("dd/MM/yyyy"));
-        string dataDevolvidoStr = this.emprestimos[this.posicao].DataDevolvido.HasValue ? this.emprestimos[this.posicao].DataDevolvido.Value.ToString("dd/MM/yyyy") : "";
-        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 5, dataDevolvidoStr);
-    }
-
-
 }
