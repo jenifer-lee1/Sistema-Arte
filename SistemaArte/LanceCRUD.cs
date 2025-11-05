@@ -111,7 +111,7 @@ namespace SistemaArte
         {
             this.tela.PrepararTela("Listagem de Lances");
             this.tela.MostrarMensagem(1, 3, "ID   | Código | Valor  | Data do Lance ");
-            this.tela.MostrarMensagem(1, 4, "-----+---------+--------+---------------");
+            this.tela.MostrarMensagem(1, 4, "-----+--------+--------+---------------");
 
             int linhaAtual = 5;
             foreach (Lance l in this.lances)
