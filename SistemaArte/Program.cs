@@ -11,7 +11,7 @@ namespace SistemaArte
             Tela tela = new Tela();
             UsuarioCRUD usuarioCRUD = new UsuarioCRUD(tela);
             ObraCRUD obraCRUD = new ObraCRUD(tela);
-            AvaliarCRUD avaliarCRUD = new AvaliarCRUD(tela, obraCRUD, usuarioCRUD);
+            AvaliarCRUD avaliarCRUD = new AvaliarCRUD(tela, obraCRUD);
             LanceCRUD lanceCRUD = new LanceCRUD(tela, obraCRUD, usuarioCRUD);
             VendaCRUD vendaCRUD = new VendaCRUD(tela, obraCRUD, avaliarCRUD, usuarioCRUD);
             RelatorioCRUD relatorioCRUD = new RelatorioCRUD(tela, obraCRUD, lanceCRUD, vendaCRUD);

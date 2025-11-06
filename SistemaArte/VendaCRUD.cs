@@ -68,7 +68,7 @@ namespace SistemaArte
 
                     // Busca precoReserva para a obra
                     double precoReserva = -1;
-                    foreach (var a in this.avaliarCRUD.avaliacao)
+                    foreach (var a in this.avaliarCRUD.avaliacoes)
                     {
                         if (a.idObra == this.venda.idObra)
                         {
@@ -89,7 +89,7 @@ namespace SistemaArte
                         // marca obra como vendida
                         foreach (var o in this.obraCRUD.ListarObras())
                         {
-                            if (o.id == this.venda.idObra)
+                            if (o.idObra == this.venda.idObra)
                             {
                                 o.estado = "Vendida";
                                 break;

@@ -1,55 +1,62 @@
 using System;
 
-// CLASSE 1: Avaliar (Preço de Reserva - Curador)
-public class Avaliar
+namespace SistemaArte
 {
-    public int id;
-    public string idObra;
-    public string idCurador;
-    public double precoReserva;
-    public string observacoes;
-    public DateTime dataAvaliacao;
-
-    public Avaliar(int id, string idObra, string idCurador, double precoReserva, string observacoes, DateTime dataAvaliacao)
+    public class Avaliar
     {
-        this.id = id;
-        this.idObra = idObra;
-        this.idCurador = idCurador;
-        this.precoReserva = precoReserva;
-        this.observacoes = observacoes;
-        this.dataAvaliacao = dataAvaliacao;
-    }
+        // referência à obra (pode ser nula se a avaliação foi criada apenas com id)
+        public Obra? obra;
 
-    public Avaliar()
-    {
-        this.id = 0;
-        this.idObra = "";
-        this.idCurador = "";
-        this.precoReserva = 0.0;
-        this.observacoes = "";
-        this.dataAvaliacao = DateTime.MinValue;
-    }
-}
+        // backup do id da obra (usado quando a instância não tem a referência 'obra')
+        private string idObraBackup;
 
-// CLASSE 2: AvaliacaoEstrelas (Avaliação Pública) - Adaptada para campos públicos
-public class AvaliacaoEstrelas
-{
-    public int id;
-    public string idObra;
-    public string idUsuario;
-    public int notaEstrelas; // De 1 a 5
-    public string comentario;
-    public DateTime dataAvaliacao;
+        public string idCurador;
+        public double precoReserva;
+        public string observacoes;
+        public DateTime dataAvaliacao;
 
-    public AvaliacaoEstrelas() { }
+        // Propriedade compatível para o código que ainda acessa a.idObra
+        public string idObra
+        {
+            get => obra?.idObra ?? idObraBackup ?? "";
+            set
+            {
+                // atualiza o backup (não cria uma Obra nova)
+                idObraBackup = value ?? "";
+            }
+        }
 
-    public AvaliacaoEstrelas(int id, string idObra, string idUsuario, int notaEstrelas, string comentario, DateTime dataAvaliacao)
-    {
-        this.id = id;
-        this.idObra = idObra;
-        this.idUsuario = idUsuario;
-        this.notaEstrelas = notaEstrelas;
-        this.comentario = comentario;
-        this.dataAvaliacao = dataAvaliacao;
+        // Construtor principal por referência (recomendado)
+        public Avaliar(Obra obra, string idCurador, double precoReserva, string observacoes, DateTime dataAvaliacao)
+        {
+            this.obra = obra ?? throw new ArgumentNullException(nameof(obra));
+            this.idObraBackup = obra.idObra ?? "";
+            this.idCurador = idCurador ?? "";
+            this.precoReserva = precoReserva;
+            this.observacoes = observacoes ?? "";
+            this.dataAvaliacao = dataAvaliacao;
+        }
+
+        // Construtor compatível (recebe apenas id da obra) — mantém compatibilidade com código antigo
+        public Avaliar(string idObra, string idCurador, double precoReserva, string observacoes, DateTime dataAvaliacao)
+        {
+            this.obra = null;
+            this.idObraBackup = idObra ?? "";
+            this.idCurador = idCurador ?? "";
+            this.precoReserva = precoReserva;
+            this.observacoes = observacoes ?? "";
+            this.dataAvaliacao = dataAvaliacao;
+        }
+
+        // Construtor padrão
+        public Avaliar()
+        {
+            this.obra = null;
+            this.idObraBackup = "";
+            this.idCurador = "";
+            this.precoReserva = 0.0;
+            this.observacoes = "";
+            this.dataAvaliacao = DateTime.MinValue;
+        }
     }
 }

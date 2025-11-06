@@ -1,7 +1,7 @@
 public class Obra
 {
     // propriedades
-    public string id;
+    public string idObra;
     public string nome;
     public string autor;
     public string ano;
@@ -11,7 +11,7 @@ public class Obra
     // construtor
     public Obra()
     {
-        this.id = "";
+        this.idObra = "";
         this.nome = "";
         this.autor = "";
         this.ano = "";
@@ -21,9 +21,9 @@ public class Obra
     }
 
 
-    public Obra(string id, string nome, string autor, string ano, string numero, string estado)
+    public Obra(string idObra, string nome, string autor, string ano, string numero, string estado)
     {
-        this.id = id;
+        this.idObra = idObra;
         this.nome = nome;
         this.autor = autor;
         this.ano = ano;

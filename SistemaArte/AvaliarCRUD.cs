@@ -4,76 +4,58 @@ using System.Collections.Generic;
 
 public class AvaliarCRUD
 {
-    public List<Avaliar> avaliacao;
-    public Avaliar avaliar;
+    public List<Avaliar> avaliacoes;
+    public Avaliar avaliacaoAtual;
     public int posicao;
     private List<string> dados;
     private int coluna, linha, largura;
     private int larguraDados, colunaDados, linhaDados;
     private Tela tela;
     private ObraCRUD obraCRUD;
-    private UsuarioCRUD usuarioCRUD;
 
-    public AvaliarCRUD(Tela tela, ObraCRUD obraCRUD, UsuarioCRUD usuarioCRUD)
+    public AvaliarCRUD(Tela tela, ObraCRUD obraCRUD)
     {
-        this.avaliacao = new List<Avaliar>();
-        this.avaliar = new Avaliar();
+        this.avaliacoes = new List<Avaliar>();
+        this.avaliacaoAtual = new Avaliar();
         this.posicao = -1;
-
         this.dados = new List<string>();
 
+        // Campos da Obra
         this.dados.Add("Id                                           : ");
         this.dados.Add("Nome da Obra                                 : ");
         this.dados.Add("Autor                                        : ");
         this.dados.Add("Ano de criação                               : ");
         this.dados.Add("Número do Certificado de Autenticidade       : ");
         this.dados.Add("Estado da Obra (Original/Restaurada/Réplica) : ");
+
+        // Campos da Avaliação
+        this.dados.Add("ID do Curador                                : ");
         this.dados.Add("Preço de Reserva                             : ");
-
-        this.dados.Add("ID");
-        this.dados.Add("ID Obra");
-        this.dados.Add("Curador");
-        this.dados.Add("Preço Reserva");
-        this.dados.Add("Observações");
-
+        this.dados.Add("Observações                                  : ");
 
         this.tela = tela;
         this.obraCRUD = obraCRUD;
-        this.usuarioCRUD = usuarioCRUD;
-
-        this.coluna = 12;
-        this.linha = 12;
-        this.largura = 100;
-
-        this.larguraDados = this.largura - dados[0].Length - 2;
-        this.colunaDados = this.coluna + dados[0].Length + 1;
-        this.linhaDados = this.linha + 2;
-
-        // Dados iniciais de exemplo
-        this.avaliacao.Add(new Avaliar(1, "12505", "2025001", 10000, "Obra excelente", DateTime.Now.AddDays(-10)));
-        this.avaliacao.Add(new Avaliar(2, "12506", "2025002", 5000, "Muito boa", DateTime.Now.AddDays(-5)));
 
         this.coluna = 8;
         this.linha = 8;
-        this.largura = 80;
+        this.largura = 90;
 
-        this.larguraDados = this.largura - (this.dados.Count > 0 ? this.dados[0].Length : 10) - 2;
-        this.colunaDados = this.coluna + (this.dados.Count > 0 ? this.dados[0].Length : 10) + 1;
+        this.larguraDados = this.largura - this.dados[0].Length - 2;
+        this.colunaDados = this.coluna + this.dados[0].Length + 1;
         this.linhaDados = this.linha + 2;
-
     }
 
     public void ExecutarCRUD()
     {
         string opcao, resp;
-        List<string> opcoesAv = new List<string>();
-        opcoesAv.Add(" OBRAS ");
-        opcoesAv.Add("1 -    Avaliar Obra          ");
-        opcoesAv.Add("2 -    Registrar Preço       ");
-        opcoesAv.Add("3 -    Listar Avaliações     ");
-        opcoesAv.Add("0 -     Sair                 ");
-
-
+        List<string> opcoesAv = new List<string>()
+        {
+            " AVALIAÇÃO DE OBRAS ",
+            "1 - Avaliar Obra",
+            "2 - Registrar Preço",
+            "3 - Listar Avaliações",
+            "0 - Sair"
+        };
 
         while (true)
         {
@@ -90,43 +72,73 @@ public class AvaliarCRUD
                 string titulo = (opcao == "1") ? "Registrar Avaliação" : "Registrar Preço";
                 this.tela.MontarJanela(titulo, this.dados, this.coluna, this.linha, this.largura);
 
-                this.EntrarDados(1);
-                bool achou = this.ProcurarCodigo();
+                Console.SetCursorPosition(this.colunaDados, this.linhaDados);
+                string idObra = Console.ReadLine();
 
-                if (opcao == "1" && achou)
+                // busca a obra pelo id informado
+                Obra obraEncontrada = this.obraCRUD.BuscarPorId(idObra);
+
+                if (obraEncontrada == null)
                 {
-                    this.MostrarDados();
-                    this.tela.MostrarMensagem("Obra já avaliada. Pressione uma tecla para continuar...");
+                    this.tela.MostrarMensagem("Obra não encontrada. Pressione uma tecla para continuar...");
                     Console.ReadKey();
                 }
-                else if (opcao == "1" && !achou)
+                else
                 {
-                    bool dadosValidos = this.EntrarDados(2);
-                    if (!dadosValidos) break;
-                    resp = this.tela.Perguntar("Confirma Avaliação (S/N) : ");
-                    if (resp.ToLower() == "s")
+                    MostrarObra(obraEncontrada);
+                    this.avaliacaoAtual.obra = obraEncontrada;
+
+                    bool achou = this.ProcurarCodigo();
+
+                    if (opcao == "1" && achou)
                     {
-                        this.avaliacao.Add(new Avaliar(this.avaliar.id, this.avaliar.idObra, this.avaliar.idCurador, this.avaliar.precoReserva, this.avaliar.observacoes, this.avaliar.dataAvaliacao));
-                        this.tela.MostrarMensagem("Avaliação registrada com sucesso! Pressione uma tecla para continuar...");
+                        this.MostrarDados();
+                        this.tela.MostrarMensagem("Obra já avaliada. Pressione uma tecla para continuar...");
+                        Console.ReadKey();
+                    }
+                    else if (opcao == "1" && !achou)
+                    {
+                        bool dadosValidos = this.EntrarDados();
+                        if (!dadosValidos) break;
+
+                        resp = this.tela.Perguntar("Confirma Avaliação (S/N) : ");
+                        if (resp.ToLower() == "s")
+                        {
+                            this.avaliacoes.Add(new Avaliar(
+                                this.avaliacaoAtual.obra,
+                                this.avaliacaoAtual.idCurador,
+                                this.avaliacaoAtual.precoReserva,
+                                this.avaliacaoAtual.observacoes,
+                                this.avaliacaoAtual.dataAvaliacao
+                            ));
+                            this.tela.MostrarMensagem("Avaliação registrada com sucesso! Pressione uma tecla para continuar...");
+                            Console.ReadKey();
+                        }
+                    }
+                    else if (opcao == "2" && achou)
+                    {
+                        MostrarObra(obraEncontrada);
+                        this.tela.MostrarMensagem("Informe o novo preço de reserva:");
+                        Console.SetCursorPosition(this.colunaDados, this.linhaDados + 7);
+                        if (double.TryParse(Console.ReadLine(), out double novoPreco))
+                        {
+                            this.avaliacoes[this.posicao].precoReserva = novoPreco;
+                            this.tela.MostrarMensagem("Preço atualizado com sucesso! Pressione uma tecla para continuar...");
+                        }
+                        else
+                        {
+                            this.tela.MostrarMensagem("Valor inválido. Pressione uma tecla para continuar...");
+                        }
                         Console.ReadKey();
                     }
                 }
-                else if (opcao == "2" && achou)
-                {
-                    this.avaliacao[this.posicao].precoReserva = this.avaliar.precoReserva;
-                    this.MostrarDados();
-                    this.tela.MostrarMensagem("Preço registrado com sucesso! Pressione uma tecla para continuar...");
-                    Console.ReadKey();
-                }
 
                 this.tela.ApagarArea(this.coluna, this.linha, this.coluna + this.largura, this.linha + this.dados.Count + 2);
-
                 this.coluna -= 10;
                 this.linha -= 2;
                 this.colunaDados -= 10;
                 this.linhaDados -= 2;
             }
-
             else if (opcao == "3")
             {
                 ListarAvaliacoes();
@@ -139,96 +151,90 @@ public class AvaliarCRUD
         }
     }
 
-    public bool EntrarDados(int qual, bool alteracao = false)
+    private bool EntrarDados()
     {
-        if (qual == 1)
+        Console.SetCursorPosition(this.colunaDados, this.linhaDados + 6);
+        this.avaliacaoAtual.idCurador = Console.ReadLine();
+
+        Console.SetCursorPosition(this.colunaDados, this.linhaDados + 7);
+        if (!double.TryParse(Console.ReadLine(), out double preco))
         {
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados);
-            this.avaliar.id = int.Parse(Console.ReadLine());
+            this.tela.MostrarMensagem("Valor inválido! Pressione uma tecla para continuar...");
+            Console.ReadKey();
+            return false;
         }
-        else
-        {
-            // Solicita o ID da obra
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 1);
-            string idObra = Console.ReadLine();
+        this.avaliacaoAtual.precoReserva = preco;
 
-            // Procura a obra completa pelo ID na ObraCRUD
-            Obra obraEncontrada = null;
-            foreach (var o in obraCRUD.ListarObras())
-            {
-                if (o.id == idObra)
-                {
-                    obraEncontrada = o;
-                    break;
-                }
-            }
+        Console.SetCursorPosition(this.colunaDados, this.linhaDados + 8);
+        this.avaliacaoAtual.observacoes = Console.ReadLine();
 
-            if (obraEncontrada == null)
-            {
-                this.tela.MostrarMensagem("Obra não encontrada. Pressione uma tecla para continuar...");
-                Console.ReadKey();
-                return false;
-            }
-
-            // Preenche o ID da obra na avaliação
-            this.avaliar.idObra = obraEncontrada.id;
-
-            // Exibe automaticamente os dados da obra na tela
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 1);
-            Console.Write(obraEncontrada.nome);
-
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 2);
-            Console.Write(obraEncontrada.autor);
-
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 3);
-            Console.Write(obraEncontrada.ano);
-
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 4);
-            Console.Write(obraEncontrada.numero);
-
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 5);
-            Console.Write(obraEncontrada.estado);
-
-            // Solicita apenas os dados da avaliação
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 6);
-            this.avaliar.idCurador = Console.ReadLine();
-
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 7);
-            this.avaliar.precoReserva = double.Parse(Console.ReadLine());
-
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 8);
-            this.avaliar.observacoes = Console.ReadLine();
-
-            this.avaliar.dataAvaliacao = DateTime.Now;
-        }
-
+        this.avaliacaoAtual.dataAvaliacao = DateTime.Now;
         return true;
     }
 
+    public void MostrarObra(Obra obra)
+    {
+        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 0, obra.idObra);
+        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 1, obra.nome);
+        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 2, obra.autor);
+        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 3, obra.ano);
+        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 4, obra.numero);
+        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 5, obra.estado);
+    }
 
+    public bool ProcurarCodigo()
+    {
+        for (int i = 0; i < this.avaliacoes.Count; i++)
+        {
+            if (this.avaliacoes[i].obra.idObra == this.avaliacaoAtual.obra.idObra)
+            {
+                this.posicao = i;
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void ListarAvaliacoes()
     {
-        this.tela.PrepararTela("Listagem de Avaliações");
-        this.tela.MostrarMensagem(1, 3, "ID | Obra      | Curador   | Preço de Reserva | Observações | Data Avaliação");
-        this.tela.MostrarMensagem(1, 4, "---+-----------+-----------+-----------------+-------------+----------------");
 
-        int linha = 5;
-        foreach (var a in this.avaliacao)
         {
-            Console.SetCursorPosition(1, linha);
-            Console.Write(a.id);
-            Console.SetCursorPosition(5, linha);
-            Console.Write(a.idObra);
-            Console.SetCursorPosition(16, linha);
-            Console.Write(a.idCurador);
-            Console.SetCursorPosition(27, linha);
-            Console.Write(a.precoReserva);
-            Console.SetCursorPosition(44, linha);
-            Console.Write(a.observacoes);
-            Console.SetCursorPosition(60, linha);
-            Console.Write(a.dataAvaliacao.ToString("dd/MM/yyyy"));
-            linha++;
+            this.tela.PrepararTela("Listagem de Avaliações");
+            this.tela.MostrarMensagem(1, 3, " ID  | Nome da Obra           | Autor            | Curador   |   Preço     | Observações                | Data       ");
+            this.tela.MostrarMensagem(1, 4, "-----+------------------------+------------------+-----------+-------------+-----------------------------+------------");
+
+            int linha = 5;
+            foreach (var a in this.avaliacoes)
+            {
+                Obra? obra = obraCRUD.BuscarPorId(a.idObra);
+
+                string nomeObra = obra?.nome ?? "(não encontrada)";
+                string autor = obra?.autor ?? "(desconhecido)";
+
+                Console.SetCursorPosition(1, linha);
+                Console.Write(a.idObra.PadRight(5));
+
+                Console.SetCursorPosition(7, linha);
+                Console.Write(nomeObra.PadRight(24));
+
+                Console.SetCursorPosition(33, linha);
+                Console.Write(autor.PadRight(18));
+
+                Console.SetCursorPosition(53, linha);
+                Console.Write(a.idCurador.PadRight(10));
+
+                // 🔧 Ajustes finos
+                Console.SetCursorPosition(68, linha);
+                Console.Write(a.precoReserva.ToString("F2").PadLeft(12));
+
+                Console.SetCursorPosition(82, linha);
+                Console.Write(a.observacoes.PadRight(28));
+
+                Console.SetCursorPosition(113, linha);
+                Console.Write(a.dataAvaliacao.ToString("dd/MM/yyyy"));
+
+                linha++;
+            }
         }
 
         this.tela.MostrarMensagem("");
@@ -236,47 +242,15 @@ public class AvaliarCRUD
         Console.ReadKey();
     }
 
-    public bool ProcurarCodigo()
-    {
-        bool encontrei = false;
-        for (int i = 0; i < this.avaliacao.Count; i++)
-        {
-            if (this.avaliacao[i].id == this.avaliar.id)
-            {
-                encontrei = true;
-                this.posicao = i;
-                break;
-            }
-        }
-        return encontrei;
-    }
 
     public void MostrarDados()
     {
-        // Busca novamente a obra pelo ID na ObraCRUD
-        Obra obra = null;
-        foreach (var o in obraCRUD.ListarObras())
-        {
-            if (o.id == this.avaliacao[this.posicao].idObra)
-            {
-                obra = o;
-                break;
-            }
-        }
-
+        Obra obra = this.avaliacoes[this.posicao].obra;
         if (obra != null)
-        {
-            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 1, obra.nome);
-            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 2, obra.autor);
-            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 3, obra.ano);
-            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 4, obra.numero);
-            this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 5, obra.estado);
-        }
+            MostrarObra(obra);
 
-        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 6, this.avaliacao[this.posicao].idCurador);
-        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 7, this.avaliacao[this.posicao].precoReserva.ToString());
-        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 8, this.avaliacao[this.posicao].observacoes);
-        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 9, this.avaliacao[this.posicao].dataAvaliacao.ToString("dd/MM/yyyy"));
+        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 6, this.avaliacoes[this.posicao].idCurador);
+        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 7, this.avaliacoes[this.posicao].precoReserva.ToString());
+        this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 8, this.avaliacoes[this.posicao].observacoes);
     }
-
 }

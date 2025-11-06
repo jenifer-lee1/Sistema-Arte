@@ -16,7 +16,7 @@
     // Constutor usado para "full screen"
     public Tela()
     {
-        this.largura = 100;
+        this.largura = 120;
         this.altura = 30;
         this.colunaInicial = 0;
         this.linhaInicial = 0;

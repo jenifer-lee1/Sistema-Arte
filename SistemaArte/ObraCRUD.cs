@@ -62,7 +62,7 @@ namespace SistemaArte
                     if (resp.ToLower() == "s")
                     {
                         this.obras.Add(
-                            new Obra(this.obra.id, this.obra.nome, this.obra.autor, this.obra.ano, this.obra.numero, this.obra.estado)
+                            new Obra(this.obra.idObra, this.obra.nome, this.obra.autor, this.obra.ano, this.obra.numero, this.obra.estado)
                         );
                     }
                 }
@@ -103,7 +103,7 @@ namespace SistemaArte
             if (qual == 1)
             {
                 Console.SetCursorPosition(this.colunaDados, this.linhaDados);
-                this.obra.id = Console.ReadLine();
+                this.obra.idObra = Console.ReadLine();
             }
             else
             {
@@ -129,7 +129,7 @@ namespace SistemaArte
             bool encontrei = false;
             for (int i = 0; i < this.obras.Count; i++)
             {
-                if (this.obra.id == this.obras[i].id)
+                if (this.obra.idObra == this.obras[i].idObra)
                 {
                     encontrei = true;
                     this.posicao = i;
@@ -141,9 +141,9 @@ namespace SistemaArte
 
 
 
-        public string ObterNomePorId(string id)
+        public string ObterNomePorId(string idObra)
         {
-            this.obra.id = id;
+            this.obra.idObra = idObra;
             bool achou = this.ProcurarCodigo();
             if (achou)
             {
@@ -168,5 +168,18 @@ namespace SistemaArte
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 5, this.obras[this.posicao].estado);
         }
 
+        // Permite buscar uma obra pelo ID
+        public Obra BuscarPorId(string idObra)
+        {
+            foreach (var o in this.obras)
+            {
+                if (o.idObra == idObra)
+                    return o;
+            }
+            return null;
+        }
+
+
     }
+
 }

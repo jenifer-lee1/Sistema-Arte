@@ -67,8 +67,8 @@ namespace SistemaArte
             List<LancesPorObra> entries = new List<LancesPorObra>();
             foreach (var o in obras)
             {
-                int totalLances = this.lanceCRUD.lances.Count(l => l.idObra == o.id);
-                entries.Add(new LancesPorObra(o.id, o.nome, totalLances));
+                int totalLances = this.lanceCRUD.lances.Count(l => l.idObra == o.idObra);
+                entries.Add(new LancesPorObra(o.idObra, o.nome, totalLances));
             }
 
             // Apresentar os DTOs
