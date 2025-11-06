@@ -14,17 +14,47 @@ public class AvaliarCRUD
     private ObraCRUD obraCRUD;
     private UsuarioCRUD usuarioCRUD;
 
+    public AvaliarCRUD(Tela tela, ObraCRUD obraCRUD, UsuarioCRUD usuarioCRUD)
+    {
+        this.avaliacao = new List<Avaliar>();
+        this.avaliar = new Avaliar();
+        this.posicao = -1;
+
+        this.dados = new List<string>();
+        this.dados.Add("Id                                           : ");
+        this.dados.Add("Nome da Obra                                 : ");
+        this.dados.Add("Autor                                        : ");
+        this.dados.Add("Ano de criação                               : ");
+        this.dados.Add("Número do Certificado de Autenticidade       : ");
+        this.dados.Add("Estado da Obra (Original/Restaurada/Réplica) : ");
+        this.dados.Add("Preço de Reserva                             : ");
+
+        this.tela = tela;
+        this.obraCRUD = obraCRUD;
+        this.usuarioCRUD = usuarioCRUD;
+
+        this.coluna = 12;
+        this.linha = 12;
+        this.largura = 100;
+
+        this.larguraDados = this.largura - dados[0].Length - 2;
+        this.colunaDados = this.coluna + dados[0].Length + 1;
+        this.linhaDados = this.linha + 2;
+
+        // Dados iniciais de exemplo
+        this.avaliacao.Add(new Avaliar(1, "12505", "2025001", 10000, "Obra excelente", DateTime.Now.AddDays(-10)));
+        this.avaliacao.Add(new Avaliar(2, "12506", "2025002", 5000, "Muito boa", DateTime.Now.AddDays(-5)));
+    }
+
     public void ExecutarCRUD()
     {
         string opcao, resp;
         List<string> opcoesAv = new List<string>();
-
-        // As strings foram alongadas com espaços para aumentar a largura do menu.
-        opcoesAv.Add("  OBRAS DE ARTE  ");
-        opcoesAv.Add("1 - Avaliar Obra         ");
-        opcoesAv.Add("2 - Registrar Preço      ");
-        opcoesAv.Add("3 - Listar Avaliações    ");
-        opcoesAv.Add("0 - Sair                 ");
+        opcoesAv.Add(" OBRAS ");
+        opcoesAv.Add("1 -    Avaliar Obra          ");
+        opcoesAv.Add("2 -    Registrar Preço       ");
+        opcoesAv.Add("3 -    Listar Avaliações     ");
+        opcoesAv.Add("0 -     Sair                 ");
 
 
 
@@ -35,10 +65,10 @@ public class AvaliarCRUD
 
             else if (opcao == "1" || opcao == "2")
             {
-                this.coluna += 20;
-                this.linha += 4;
-                this.colunaDados += 20;
-                this.linhaDados += 4;
+                this.coluna += 10;
+                this.linha += 2;
+                this.colunaDados += 10;
+                this.linhaDados += 2;
 
                 string titulo = (opcao == "1") ? "Registrar Avaliação" : "Registrar Preço";
                 this.tela.MontarJanela(titulo, this.dados, this.coluna, this.linha, this.largura);
