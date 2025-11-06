@@ -43,6 +43,9 @@ public class AvaliarCRUD
         this.larguraDados = this.largura - this.dados[0].Length - 2;
         this.colunaDados = this.coluna + this.dados[0].Length + 1;
         this.linhaDados = this.linha + 2;
+
+
+
     }
 
     public void ExecutarCRUD()
@@ -200,8 +203,8 @@ public class AvaliarCRUD
 
         {
             this.tela.PrepararTela("Listagem de Avaliações");
-            this.tela.MostrarMensagem(1, 3, " ID  | Nome da Obra           | Autor            | Curador   |   Preço     | Observações                | Data       ");
-            this.tela.MostrarMensagem(1, 4, "-----+------------------------+------------------+-----------+-------------+-----------------------------+------------");
+            this.tela.MostrarMensagem(1, 3, "    ID     |   Nome da Obra   |    Autor         |    Curador    |   Preço        |  Observações  |  Data         ");
+            this.tela.MostrarMensagem(1, 4, "-----------+------------------+------------------+---------------+----------------+---------------+---------------");
 
             int linha = 5;
             foreach (var a in this.avaliacoes)
@@ -228,9 +231,9 @@ public class AvaliarCRUD
                 Console.Write(a.precoReserva.ToString("F2").PadLeft(12));
 
                 Console.SetCursorPosition(82, linha);
-                Console.Write(a.observacoes.PadRight(28));
+                Console.Write(a.observacoes.PadRight(27));
 
-                Console.SetCursorPosition(113, linha);
+                Console.SetCursorPosition(106, linha);
                 Console.Write(a.dataAvaliacao.ToString("dd/MM/yyyy"));
 
                 linha++;

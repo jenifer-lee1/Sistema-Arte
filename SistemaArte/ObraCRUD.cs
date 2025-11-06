@@ -38,8 +38,8 @@ namespace SistemaArte
             this.linhaDados = this.linha + 2;
 
             // dados iniciais
-            this.obras.Add(new Obra("12505", "Monalisa", "Leonardo da Vinci", "1503", "1001", "Original"));
-            this.obras.Add(new Obra("12506", "O Grito", "Edvard Munch", "1893", "1002", "Original"));
+            this.obras.Add(new Obra("125", "Monalisa", "Leonardo da Vinci", "1503", "1001", "Original"));
+            this.obras.Add(new Obra("126", "O Grito", "Edvard Munch", "1893", "1002", "Original"));
         }
 
         public void ExecutarCRUD()
