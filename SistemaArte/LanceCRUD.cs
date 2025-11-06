@@ -24,6 +24,7 @@ namespace SistemaArte
 
             this.dados = new List<string>();
             this.dados.Add("ID              : ");
+            this.dados.Add("ID da Obra      : ");
             this.dados.Add("Código Comprador: ");
             this.dados.Add("Valor           : ");
             this.dados.Add("Data do Lance   : ");
@@ -42,8 +43,8 @@ namespace SistemaArte
             this.linhaDados = this.linha + 2;
 
             // Exemplos de lances iniciais (pode remover se quiser começar vazio)
-            this.lances.Add(new Lance(1, "U001", 1500, DateTime.Now.AddDays(-2)));
-            this.lances.Add(new Lance(2, "U002", 1800, DateTime.Now.AddDays(-1)));
+            this.lances.Add(new Lance(1, "12505", "U001", 1500, DateTime.Now.AddDays(-2)));
+            this.lances.Add(new Lance(2, "12506", "U002", 1800, DateTime.Now.AddDays(-1)));
         }
 
         // Método principal
@@ -71,7 +72,7 @@ namespace SistemaArte
                     resp = this.tela.Perguntar("Confirma registro do lance (S/N): ");
                     if (resp.ToLower() == "s")
                     {
-                        this.lances.Add(new Lance(this.lance.id, this.lance.cod, this.lance.valor, this.lance.dataLance));
+                        this.lances.Add(new Lance(this.lance.id, this.lance.idObra, this.lance.cod, this.lance.valor, this.lance.dataLance));
                         this.tela.MostrarMensagem("Lance registrado com sucesso! Pressione uma tecla...");
                         Console.ReadKey();
                     }
@@ -97,6 +98,9 @@ namespace SistemaArte
             this.lance.id = int.Parse(Console.ReadLine());
 
             Console.SetCursorPosition(this.colunaDados, this.linhaDados + 1);
+            this.lance.idObra = Console.ReadLine();
+
+            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 1);
             this.lance.cod = Console.ReadLine();
 
             Console.SetCursorPosition(this.colunaDados, this.linhaDados + 2);
@@ -110,19 +114,21 @@ namespace SistemaArte
         public void ListarLances()
         {
             this.tela.PrepararTela("Listagem de Lances");
-            this.tela.MostrarMensagem(1, 3, "ID   | Código | Valor  | Data do Lance ");
-            this.tela.MostrarMensagem(1, 4, "-----+---------+--------+---------------");
+            this.tela.MostrarMensagem(1, 3, "ID   | Obra   | Código | Valor  | Data do Lance ");
+            this.tela.MostrarMensagem(1, 4, "-----+--------+--------+--------+---------------");
 
             int linhaAtual = 5;
             foreach (Lance l in this.lances)
             {
                 Console.SetCursorPosition(1, linhaAtual);
                 Console.Write(l.id);
-                Console.SetCursorPosition(8, linhaAtual);
+                Console.SetCursorPosition(6, linhaAtual);
+                Console.Write(l.idObra);
+                Console.SetCursorPosition(14, linhaAtual);
                 Console.Write(l.cod);
-                Console.SetCursorPosition(18, linhaAtual);
+                Console.SetCursorPosition(24, linhaAtual);
                 Console.Write(l.valor);
-                Console.SetCursorPosition(28, linhaAtual);
+                Console.SetCursorPosition(34, linhaAtual);
                 Console.Write(l.dataLance.ToString("dd/MM/yyyy"));
                 linhaAtual++;
             }
