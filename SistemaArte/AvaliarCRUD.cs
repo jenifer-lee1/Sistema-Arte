@@ -14,10 +14,6 @@ public class AvaliarCRUD
     private ObraCRUD obraCRUD;
     private UsuarioCRUD usuarioCRUD;
 
-<<<<<<< HEAD
-=======
-    // Construtor para inicializar dependências e estruturas
->>>>>>> 5cf96176af88799d4b91433424f0d0ef44e8baa2
     public AvaliarCRUD(Tela tela, ObraCRUD obraCRUD, UsuarioCRUD usuarioCRUD)
     {
         this.avaliacao = new List<Avaliar>();
@@ -25,7 +21,7 @@ public class AvaliarCRUD
         this.posicao = -1;
 
         this.dados = new List<string>();
-<<<<<<< HEAD
+
         this.dados.Add("Id                                           : ");
         this.dados.Add("Nome da Obra                                 : ");
         this.dados.Add("Autor                                        : ");
@@ -33,19 +29,18 @@ public class AvaliarCRUD
         this.dados.Add("Número do Certificado de Autenticidade       : ");
         this.dados.Add("Estado da Obra (Original/Restaurada/Réplica) : ");
         this.dados.Add("Preço de Reserva                             : ");
-=======
+
         this.dados.Add("ID");
         this.dados.Add("ID Obra");
         this.dados.Add("Curador");
         this.dados.Add("Preço Reserva");
         this.dados.Add("Observações");
->>>>>>> 5cf96176af88799d4b91433424f0d0ef44e8baa2
+
 
         this.tela = tela;
         this.obraCRUD = obraCRUD;
         this.usuarioCRUD = usuarioCRUD;
 
-<<<<<<< HEAD
         this.coluna = 12;
         this.linha = 12;
         this.largura = 100;
@@ -57,7 +52,7 @@ public class AvaliarCRUD
         // Dados iniciais de exemplo
         this.avaliacao.Add(new Avaliar(1, "12505", "2025001", 10000, "Obra excelente", DateTime.Now.AddDays(-10)));
         this.avaliacao.Add(new Avaliar(2, "12506", "2025002", 5000, "Muito boa", DateTime.Now.AddDays(-5)));
-=======
+
         this.coluna = 8;
         this.linha = 8;
         this.largura = 80;
@@ -65,7 +60,7 @@ public class AvaliarCRUD
         this.larguraDados = this.largura - (this.dados.Count > 0 ? this.dados[0].Length : 10) - 2;
         this.colunaDados = this.coluna + (this.dados.Count > 0 ? this.dados[0].Length : 10) + 1;
         this.linhaDados = this.linha + 2;
->>>>>>> 5cf96176af88799d4b91433424f0d0ef44e8baa2
+
     }
 
     public void ExecutarCRUD()

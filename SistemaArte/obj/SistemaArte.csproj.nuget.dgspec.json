@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\forte\\Documents\\GitHub\\Sistema-Obras-de-Arte\\SistemaArte\\SistemaArte.csproj": {}
+    "C:\\Users\\Usuario\\OneDrive - Católica SC\\Área de Trabalho\\oficial\\Sistema-Arte\\SistemaArte\\SistemaArte.csproj": {}
   },
   "projects": {
-    "c:\\Users\\forte\\Documents\\GitHub\\Sistema-Obras-de-Arte\\SistemaArte\\SistemaArte.csproj": {
+    "C:\\Users\\Usuario\\OneDrive - Católica SC\\Área de Trabalho\\oficial\\Sistema-Arte\\SistemaArte\\SistemaArte.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\forte\\Documents\\GitHub\\Sistema-Obras-de-Arte\\SistemaArte\\SistemaArte.csproj",
+        "projectUniqueName": "C:\\Users\\Usuario\\OneDrive - Católica SC\\Área de Trabalho\\oficial\\Sistema-Arte\\SistemaArte\\SistemaArte.csproj",
         "projectName": "SistemaArte",
-        "projectPath": "c:\\Users\\forte\\Documents\\GitHub\\Sistema-Obras-de-Arte\\SistemaArte\\SistemaArte.csproj",
-        "packagesPath": "C:\\Users\\forte\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\forte\\Documents\\GitHub\\Sistema-Obras-de-Arte\\SistemaArte\\obj\\",
+        "projectPath": "C:\\Users\\Usuario\\OneDrive - Católica SC\\Área de Trabalho\\oficial\\Sistema-Arte\\SistemaArte\\SistemaArte.csproj",
+        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Usuario\\OneDrive - Católica SC\\Área de Trabalho\\oficial\\Sistema-Arte\\SistemaArte\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\forte\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -59,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
