@@ -52,33 +52,32 @@ public class AvaliarCRUD
     {
         string opcao, resp;
         List<string> opcoesAv = new List<string>()
-        {
-            " AVALIAÇÃO DE OBRAS ",
-            "1 - Avaliar Obra",
-            "2 - Registrar Preço",
-            "3 - Listar Avaliações",
-            "0 - Sair"
-        };
+    {
+        " AVALIAÇÃO DE OBRAS ",
+        "1 - Avaliar Obra",
+        "2 - Visualizar Preço",
+        "3 - Listar Avaliações",
+        "0 - Sair"
+    };
 
         while (true)
         {
             opcao = tela.MostrarMenu(opcoesAv, coluna, linha);
             if (opcao == "0") break;
 
-            else if (opcao == "1" || opcao == "2")
+            else if (opcao == "1") // Registrar avaliação
             {
                 this.coluna += 10;
                 this.linha += 2;
                 this.colunaDados += 10;
                 this.linhaDados += 2;
 
-                string titulo = (opcao == "1") ? "Registrar Avaliação" : "Registrar Preço";
+                string titulo = "Registrar Avaliação";
                 this.tela.MontarJanela(titulo, this.dados, this.coluna, this.linha, this.largura);
 
                 Console.SetCursorPosition(this.colunaDados, this.linhaDados);
                 string idObra = Console.ReadLine();
 
-                // busca a obra pelo id informado
                 Obra obraEncontrada = this.obraCRUD.BuscarPorId(idObra);
 
                 if (obraEncontrada == null)
@@ -93,13 +92,13 @@ public class AvaliarCRUD
 
                     bool achou = this.ProcurarCodigo();
 
-                    if (opcao == "1" && achou)
+                    if (achou)
                     {
                         this.MostrarDados();
                         this.tela.MostrarMensagem("Obra já avaliada. Pressione uma tecla para continuar...");
                         Console.ReadKey();
                     }
-                    else if (opcao == "1" && !achou)
+                    else
                     {
                         bool dadosValidos = this.EntrarDados();
                         if (!dadosValidos) break;
@@ -118,22 +117,6 @@ public class AvaliarCRUD
                             Console.ReadKey();
                         }
                     }
-                    else if (opcao == "2" && achou)
-                    {
-                        MostrarObra(obraEncontrada);
-                        this.tela.MostrarMensagem("Informe o novo preço de reserva:");
-                        Console.SetCursorPosition(this.colunaDados, this.linhaDados + 7);
-                        if (double.TryParse(Console.ReadLine(), out double novoPreco))
-                        {
-                            this.avaliacoes[this.posicao].precoReserva = novoPreco;
-                            this.tela.MostrarMensagem("Preço atualizado com sucesso! Pressione uma tecla para continuar...");
-                        }
-                        else
-                        {
-                            this.tela.MostrarMensagem("Valor inválido. Pressione uma tecla para continuar...");
-                        }
-                        Console.ReadKey();
-                    }
                 }
 
                 this.tela.ApagarArea(this.coluna, this.linha, this.coluna + this.largura, this.linha + this.dados.Count + 2);
@@ -142,10 +125,64 @@ public class AvaliarCRUD
                 this.colunaDados -= 10;
                 this.linhaDados -= 2;
             }
-            else if (opcao == "3")
+
+            else if (opcao == "2") // Visualizar Preço
+            {
+                this.coluna += 10;
+                this.linha += 2;
+                this.colunaDados += 10;
+                this.linhaDados += 2;
+
+                // Somente os campos que queremos mostrar
+                List<string> camposPreco = new List<string>()
+    {
+        "ID da Obra   : ",
+        "Nome da Obra : ",
+        "Autor        : ",
+        "Preço        : "
+    };
+
+                string titulo = "Visualizar Preço";
+                this.tela.MontarJanela(titulo, camposPreco, this.coluna, this.linha, this.largura);
+
+                Console.SetCursorPosition(this.colunaDados, this.linhaDados);
+                string idObra = Console.ReadLine();
+
+                // Procura a avaliação pelo ID
+                Avaliar avaliacao = this.avaliacoes.Find(a => (a.obra != null && a.obra.idObra == idObra) || a.idObra == idObra);
+
+                if (avaliacao != null)
+                {
+                    string id = avaliacao.obra != null ? avaliacao.obra.idObra : avaliacao.idObra;
+                    string nome = avaliacao.obra != null ? avaliacao.obra.nome : "(não registrado)";
+                    string autor = avaliacao.obra != null ? avaliacao.obra.autor : "(não registrado)";
+                    string preco = avaliacao.precoReserva.ToString("F2");
+
+                    this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 0, id);
+                    this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 1, nome);
+                    this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 2, autor);
+                    this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 3, preco);
+                }
+                else
+                {
+                    this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 0, "Nenhuma avaliação registrada para esta obra.");
+                }
+
+                Console.ReadKey();
+                this.tela.ApagarArea(this.coluna, this.linha, this.coluna + this.largura, this.linha + camposPreco.Count + 2);
+
+                this.coluna -= 10;
+                this.linha -= 2;
+                this.colunaDados -= 10;
+                this.linhaDados -= 2;
+            }
+
+
+            else if (opcao == "3") // Listar Avaliações
             {
                 ListarAvaliacoes();
             }
+
             else
             {
                 tela.MostrarMensagem("Opção inválida. Pressione uma tecla para continuar...");
@@ -153,6 +190,7 @@ public class AvaliarCRUD
             }
         }
     }
+
 
     private bool EntrarDados()
     {
