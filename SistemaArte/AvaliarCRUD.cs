@@ -245,6 +245,19 @@ public class AvaliarCRUD
         Console.ReadKey();
     }
 
+    public double ObterPrecoReservaPorObra(string idObra)
+    {
+        foreach (var av in this.avaliacoes)
+        {
+            if (av.obra != null && av.obra.idObra == idObra)
+            {
+                return av.precoReserva;
+            }
+        }
+        return 0;
+    }
+
+
 
     public void MostrarDados()
     {

@@ -7,13 +7,12 @@ namespace SistemaArte
     {
         static void Main()
         {
-
             Tela tela = new Tela();
             UsuarioCRUD usuarioCRUD = new UsuarioCRUD(tela);
             ObraCRUD obraCRUD = new ObraCRUD(tela);
             AvaliarCRUD avaliarCRUD = new AvaliarCRUD(tela, obraCRUD);
-            LanceCRUD lanceCRUD = new LanceCRUD(tela, obraCRUD, usuarioCRUD);
-            VendaCRUD vendaCRUD = new VendaCRUD(tela, obraCRUD, avaliarCRUD, usuarioCRUD);
+            LanceCRUD lanceCRUD = new LanceCRUD(tela, obraCRUD, usuarioCRUD, avaliarCRUD);
+            VendaCRUD vendaCRUD = new VendaCRUD(tela, obraCRUD, avaliarCRUD, usuarioCRUD, lanceCRUD);
             RelatorioCRUD relatorioCRUD = new RelatorioCRUD(tela, obraCRUD, lanceCRUD, vendaCRUD);
 
             List<string> opcoes = new List<string>
@@ -22,7 +21,7 @@ namespace SistemaArte
                 "2 - Cadastro de Obras",
                 "3 - Avaliação de Obras",
                 "4 - Registro de Lances",
-                "5 - Pagamento",
+                "5 - Fechar Venda",
                 "6 - Relatórios",
                 "0 - Sair do Sistema"
             };
@@ -48,16 +47,6 @@ namespace SistemaArte
                     Console.ReadKey();
                 }
             }
-        }
-
-        // 🔹 Método auxiliar para simular uma ação
-        static void ExecutarCRUD(string nome)
-        {
-            Console.Clear();
-            Console.WriteLine($"Você escolheu: {nome}");
-            Console.WriteLine("Funcionalidade em desenvolvimento...");
-            Console.WriteLine("Pressione qualquer tecla para voltar ao menu.");
-            Console.ReadKey();
         }
     }
 }

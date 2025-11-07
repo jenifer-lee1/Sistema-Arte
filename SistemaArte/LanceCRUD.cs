@@ -5,49 +5,48 @@ namespace SistemaArte
 {
     public class LanceCRUD
     {
-        public List<Lance> lances;   // lista de lances
-        public Lance lance;          // objeto lance atual
-        public int posicao;          // posição no vetor
+        public List<Lance> lances;
+        public Lance lance;
+        public int posicao;
         private List<string> dados;
         private int coluna, linha, largura;
         private int larguraDados, colunaDados, linhaDados;
         private Tela tela;
         private ObraCRUD obraCRUD;
         private UsuarioCRUD usuarioCRUD;
+        private AvaliarCRUD avaliarCRUD;
 
-        // Construtor recebendo as dependências
-        public LanceCRUD(Tela tela, ObraCRUD obraCRUD, UsuarioCRUD usuarioCRUD)
+        public LanceCRUD(Tela tela, ObraCRUD obraCRUD, UsuarioCRUD usuarioCRUD, AvaliarCRUD avaliarCRUD)
         {
             this.lances = new List<Lance>();
             this.lance = new Lance();
             this.posicao = -1;
 
-            this.dados = new List<string>();
-            this.dados.Add("ID              : ");
-            this.dados.Add("ID da Obra      : ");
-            this.dados.Add("Código Comprador: ");
-            this.dados.Add("Valor           : ");
-            this.dados.Add("Data do Lance   : ");
+            this.dados = new List<string>
+            {
+                "ID da Obra        : ",
+                "Código Comprador  : ",
+                "Valor do Lance    : ",
+                "Data do Lance     : "
+            };
 
-            // Atribui as referências recebidas (sem criar novos objetos)
             this.tela = tela;
             this.obraCRUD = obraCRUD;
             this.usuarioCRUD = usuarioCRUD;
+            this.avaliarCRUD = avaliarCRUD;
 
             this.coluna = 10;
             this.linha = 5;
-            this.largura = 55;
+            this.largura = 80;
 
             this.larguraDados = this.largura - dados[0].Length - 2;
             this.colunaDados = this.coluna + dados[0].Length + 1;
             this.linhaDados = this.linha + 2;
-
-            // Exemplos de lances iniciais (pode remover se quiser começar vazio)
-            this.lances.Add(new Lance(1, "12505", "U001", 1500, DateTime.Now.AddDays(-2)));
-            this.lances.Add(new Lance(2, "12506", "U002", 1800, DateTime.Now.AddDays(-1)));
         }
 
-        // Método principal
+        // -------------------------------
+        // Menu Principal do CRUD
+        // -------------------------------
         public void ExecutarCRUD()
         {
             string opcao, resp;
@@ -69,10 +68,46 @@ namespace SistemaArte
                     this.tela.MontarJanela("Registrar Lance", this.dados, this.coluna, this.linha, this.largura);
                     this.EntrarDados();
 
+                    // 🔹 Verifica comprador
+                    Usuario usuario = usuarioCRUD.ObterUsuarioPorCodigo(this.lance.cod);
+                    if (usuario == null)
+                    {
+                        tela.MostrarMensagem("Comprador não encontrado. Pressione uma tecla para voltar...");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    if (usuario is Comprador comprador)
+                    {
+                        if (string.IsNullOrWhiteSpace(comprador.numeroCartao))
+                        {
+                            tela.MostrarMensagem("Comprador sem cartão cadastrado. Atualize os dados para continuar.");
+                            Console.ReadKey();
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        tela.MostrarMensagem("Usuário informado não é um comprador. Lance não permitido.");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    // 🔹 Verifica preço de reserva
+                    double precoReserva = avaliarCRUD.ObterPrecoReservaPorObra(this.lance.idObra);
+                    double valorLance = Convert.ToDouble(this.lance.valor);
+
+                    if (precoReserva > 0 && valorLance < precoReserva)
+                    {
+                        tela.MostrarMensagem($"Lance abaixo do preço de reserva (R$ {precoReserva:F2}). Ajuste o valor!");
+                        Console.ReadKey();
+                        continue;
+                    }
+
                     resp = this.tela.Perguntar("Confirma registro do lance (S/N): ");
                     if (resp.ToLower() == "s")
                     {
-                        this.lances.Add(new Lance(this.lance.id, this.lance.idObra, this.lance.cod, this.lance.valor, this.lance.dataLance));
+                        this.lances.Add(new Lance(this.lances.Count + 1, this.lance.idObra, this.lance.cod, this.lance.valor, this.lance.dataLance));
                         this.tela.MostrarMensagem("Lance registrado com sucesso! Pressione uma tecla...");
                         Console.ReadKey();
                     }
@@ -91,31 +126,36 @@ namespace SistemaArte
             }
         }
 
-        // Entrar dados de lance
+        // -------------------------------
+        // Entrada de dados
+        // -------------------------------
         public void EntrarDados()
         {
             Console.SetCursorPosition(this.colunaDados, this.linhaDados);
-            this.lance.id = int.Parse(Console.ReadLine());
-
-            Console.SetCursorPosition(this.colunaDados, this.linhaDados + 1);
             this.lance.idObra = Console.ReadLine();
 
             Console.SetCursorPosition(this.colunaDados, this.linhaDados + 1);
             this.lance.cod = Console.ReadLine();
 
             Console.SetCursorPosition(this.colunaDados, this.linhaDados + 2);
-            this.lance.valor = int.Parse(Console.ReadLine());
+            this.lance.valor = Console.ReadLine();
 
             Console.SetCursorPosition(this.colunaDados, this.linhaDados + 3);
-            this.lance.dataLance = DateTime.Parse(Console.ReadLine());
+            string data = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(data))
+                this.lance.dataLance = DateTime.Now;
+            else
+                this.lance.dataLance = DateTime.Parse(data);
         }
 
-        // Listar lances
+        // -------------------------------
+        // Listagem
+        // -------------------------------
         public void ListarLances()
         {
             this.tela.PrepararTela("Listagem de Lances");
-            this.tela.MostrarMensagem(1, 3, "ID   | Obra   | Código | Valor  | Data do Lance ");
-            this.tela.MostrarMensagem(1, 4, "-----+--------+--------+--------+---------------");
+            this.tela.MostrarMensagem(1, 3, "ID  | Obra  | Código | Valor  | Data do Lance ");
+            this.tela.MostrarMensagem(1, 4, "----+-------+--------+--------+---------------");
 
             int linhaAtual = 5;
             foreach (Lance l in this.lances)
@@ -136,6 +176,29 @@ namespace SistemaArte
             this.tela.MostrarMensagem("");
             this.tela.MostrarMensagem("Pressione uma tecla para continuar...");
             Console.ReadKey();
+        }
+
+        // -------------------------------
+        // Obter o maior lance de uma obra
+        // -------------------------------
+        public Lance ObterMaiorLance(string idObra)
+        {
+            Lance maior = null;
+            double maiorValor = -1;
+
+            foreach (var l in this.lances)
+            {
+                if (l.idObra == idObra)
+                {
+                    double valorAtual = Convert.ToDouble(l.valor);
+                    if (valorAtual > maiorValor)
+                    {
+                        maiorValor = valorAtual;
+                        maior = l;
+                    }
+                }
+            }
+            return maior;
         }
     }
 }

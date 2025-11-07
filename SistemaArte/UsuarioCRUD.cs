@@ -204,6 +204,19 @@ namespace SistemaArte
             return "Usuário não encontrado";
         }
 
+        public Usuario ObterUsuarioPorCodigo(string codigo)
+        {
+            foreach (Usuario u in this.usuarios)
+            {
+                if (u.id.ToString() == codigo)
+                {
+                    return u;
+                }
+            }
+            return null;
+        }
+
+
 
     }
 }

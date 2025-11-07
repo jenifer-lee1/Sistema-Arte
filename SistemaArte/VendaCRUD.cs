@@ -11,12 +11,14 @@ namespace SistemaArte
         private List<string> dados;
         private int coluna, linha, largura;
         private int larguraDados, colunaDados, linhaDados;
+
         private Tela tela;
         private ObraCRUD obraCRUD;
         private AvaliarCRUD avaliarCRUD;
         private UsuarioCRUD usuarioCRUD;
+        private LanceCRUD lanceCRUD;
 
-        public VendaCRUD(Tela tela, ObraCRUD obraCRUD, AvaliarCRUD avaliarCRUD, UsuarioCRUD usuarioCRUD)
+        public VendaCRUD(Tela tela, ObraCRUD obraCRUD, AvaliarCRUD avaliarCRUD, UsuarioCRUD usuarioCRUD, LanceCRUD lanceCRUD)
         {
             this.vendas = new List<Venda>();
             this.venda = new Venda();
@@ -25,13 +27,12 @@ namespace SistemaArte
             this.dados = new List<string>();
             this.dados.Add("ID da Venda : ");
             this.dados.Add("ID da Obra  : ");
-            this.dados.Add("Comprador   : ");
-            this.dados.Add("Valor Final : ");
 
             this.tela = tela;
             this.obraCRUD = obraCRUD;
             this.avaliarCRUD = avaliarCRUD;
             this.usuarioCRUD = usuarioCRUD;
+            this.lanceCRUD = lanceCRUD;
 
             this.coluna = 8;
             this.linha = 6;
@@ -40,8 +41,6 @@ namespace SistemaArte
             this.larguraDados = this.largura - dados[0].Length - 2;
             this.colunaDados = this.coluna + dados[0].Length + 1;
             this.linhaDados = this.linha + 2;
-
-            // exemplo inicial vazio
         }
 
         public void ExecutarCRUD()
@@ -64,9 +63,14 @@ namespace SistemaArte
                 {
                     this.tela.MontarJanela("Fechamento de Venda", this.dados, this.coluna, this.linha, this.largura);
                     bool ok = this.EntrarDados();
-                    if (!ok) { this.tela.MostrarMensagem("Operação cancelada. Pressione uma tecla para continuar..."); Console.ReadKey(); continue; }
+                    if (!ok)
+                    {
+                        this.tela.MostrarMensagem("Operação cancelada. Pressione uma tecla para continuar...");
+                        Console.ReadKey();
+                        continue;
+                    }
 
-                    // Busca precoReserva para a obra
+                    // Busca preço de reserva
                     double precoReserva = -1;
                     foreach (var a in this.avaliarCRUD.avaliacoes)
                     {
@@ -79,14 +83,27 @@ namespace SistemaArte
 
                     if (precoReserva < 0)
                     {
-                        this.tela.MostrarMensagem("Obra sem avaliação/preço de reserva. Impossível fechar venda. Pressione uma tecla...");
+                        this.tela.MostrarMensagem("Obra sem avaliação/preço de reserva. Impossível fechar venda.");
                         Console.ReadKey();
                         continue;
                     }
 
+                    // Busca maior lance
+                    Lance maiorLance = this.lanceCRUD.ObterMaiorLance(this.venda.idObra);
+
+                    if (maiorLance == null)
+                    {
+                        this.tela.MostrarMensagem("Nenhum lance encontrado para essa obra. Pressione uma tecla...");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    this.venda.compradorCodigo = maiorLance.cod;
+                    this.venda.valorFinal = Convert.ToDouble(maiorLance.valor);
+
                     if (this.venda.valorFinal >= precoReserva)
                     {
-                        // marca obra como vendida
+                        // Marca obra como vendida
                         foreach (var o in this.obraCRUD.ListarObras())
                         {
                             if (o.idObra == this.venda.idObra)
@@ -96,13 +113,16 @@ namespace SistemaArte
                             }
                         }
 
-                        this.vendas.Add(new Venda(this.venda.id, this.venda.idObra, this.venda.compradorCodigo, this.venda.valorFinal, DateTime.Now));
-                        this.tela.MostrarMensagem("Venda fechada com sucesso! Obra marcada como Vendida. Pressione uma tecla...");
+                        // Registra venda
+                        this.venda.dataVenda = DateTime.Now;
+                        this.vendas.Add(new Venda(this.venda.idObra, this.venda.compradorCodigo, this.venda.valorFinal, this.venda.dataVenda));
+
+                        this.tela.MostrarMensagem("Venda fechada com sucesso! Obra marcada como 'Vendida'.");
                         Console.ReadKey();
                     }
                     else
                     {
-                        this.tela.MostrarMensagem("Lance vencedor menor que o preço de reserva. Retornando ao menu.");
+                        this.tela.MostrarMensagem("Lance vencedor menor que o preço de reserva. Venda não realizada.");
                         Console.ReadKey();
                     }
 
@@ -129,12 +149,6 @@ namespace SistemaArte
 
                 Console.SetCursorPosition(this.colunaDados, this.linhaDados + 1);
                 this.venda.idObra = Console.ReadLine() ?? "";
-
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + 2);
-                this.venda.compradorCodigo = Console.ReadLine() ?? "";
-
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + 3);
-                double.TryParse(Console.ReadLine(), out this.venda.valorFinal);
 
                 return true;
             }

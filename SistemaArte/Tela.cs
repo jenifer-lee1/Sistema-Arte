@@ -52,21 +52,32 @@
     public string MostrarMenu(List<string> ops, int ci, int li)
     {
         int cf, lf, linha;
-        cf = ci + ops[0].Length + 1;
-        lf = li + ops.Count + 2;
+
+        // 🔹 Encontra o texto mais longo da lista
+        int maior = 0;
+        foreach (string s in ops)
+            if (s.Length > maior) maior = s.Length;
+
+        // 🔹 Define o tamanho da moldura com base no maior texto
+        cf = ci + maior + 6; // +6 dá um espacinho nas bordas
+        lf = li + ops.Count + 4; // +4 dá mais altura
+
         this.MontarMoldura(ci, li, cf, lf);
+
         linha = li + 1;
         for (int i = 0; i < ops.Count; i++)
         {
-            Console.SetCursorPosition(ci + 1, linha);
+            Console.SetCursorPosition(ci + 2, linha); // centraliza um pouco
             Console.Write(ops[i]);
             linha++;
         }
-        Console.SetCursorPosition(ci + 1, linha);
+
+        Console.SetCursorPosition(ci + 2, linha);
         Console.Write("Opção : ");
         string op = Console.ReadLine();
         return op;
     }
+
 
 
     public void Centralizar(int ci, int cf, int lin, string msg)
