@@ -128,12 +128,12 @@ public class AvaliarCRUD
                 this.linhaDados += 2;
 
                 List<string> camposPreco = new List<string>()
-    {
-        "ID da Obra   : ",
-        "Nome da Obra : ",
-        "Autor        : ",
-        "Preço        : "
-    };
+                 {
+                   "ID da Obra   : ",
+                   "Nome da Obra : ",
+                   "Autor        : ",
+                   "Preço        : "
+                        };
 
                 string titulo = "Visualizar Preço";
                 this.tela.MontarJanela(titulo, camposPreco, this.coluna, this.linha, this.largura);
@@ -244,8 +244,8 @@ public class AvaliarCRUD
 
         {
             this.tela.PrepararTela("Listagem de Avaliações");
-            this.tela.MostrarMensagem(1, 3, " ID        |  Nome da Obra     | Autor      | Curador       |  Preço     | Observações | Data ");
-            this.tela.MostrarMensagem(1, 4, "-----------+------------------+------------------+---------------+----------------+----------------");
+            this.tela.MostrarMensagem(1, 3, " ID        |  Nome da Obra     | Autor      | Curador    |  Preço         | Observações |        Data             ");
+            this.tela.MostrarMensagem(1, 4, "-----------+-------------------+------------+------------+----------------+-------------+--------------------------");
 
             int linha = 5;
             foreach (var a in this.avaliacoes)
