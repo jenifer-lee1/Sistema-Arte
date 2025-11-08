@@ -109,27 +109,56 @@ namespace SistemaArte
             {
                 Console.SetCursorPosition(this.colunaDados, this.linhaDados);
                 this.usuario.nome = Console.ReadLine();
+
+                while (string.IsNullOrWhiteSpace(this.usuario.nome))
+                {
+                    this.tela.MostrarMensagem("Campo obrigatório! Digite o nome do usuário:");
+                    Console.SetCursorPosition(this.colunaDados, this.linhaDados);
+                    this.usuario.nome = Console.ReadLine();
+                }
             }
             else
             {
                 int deslocamentoLinha = alteracao ? this.dados.Count + 2 : 0;
 
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 1);
-                int.TryParse(Console.ReadLine(), out this.usuario.id);
-
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 2);
-                this.usuario.email = Console.ReadLine();
-
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 3);
-                this.usuario.telefone = Console.ReadLine();
-
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 4);
-                this.usuario.TipoUsuario = Console.ReadLine();
-
-                if (this.usuario.TipoUsuario.ToLower() == "comprador")
+                do
                 {
-                    this.usuario = new Comprador(this.usuario.nome, this.usuario.id, this.usuario.email, this.usuario.telefone, "", "");
-                }
+                    Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 1);
+                    string idTexto = Console.ReadLine();
+
+                    Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 2);
+                    this.usuario.email = Console.ReadLine();
+
+                    Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 3);
+                    this.usuario.telefone = Console.ReadLine();
+
+                    Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 4);
+                    this.usuario.TipoUsuario = Console.ReadLine();
+
+                    // Validação de campos obrigatórios
+                    if (string.IsNullOrWhiteSpace(idTexto) ||
+                        string.IsNullOrWhiteSpace(this.usuario.email) ||
+                        string.IsNullOrWhiteSpace(this.usuario.telefone) ||
+                        string.IsNullOrWhiteSpace(this.usuario.TipoUsuario))
+                    {
+                        this.tela.MostrarMensagem("Campos incompletos! Preencha todos os campos corretamente.");
+                        Console.ReadKey();
+                        this.tela.MontarJanela("Cadastro de Usuários", this.dados, this.coluna, this.linha, this.largura);
+                    }
+                    else
+                    {
+                        int.TryParse(idTexto, out this.usuario.id);
+
+                        // Cria o tipo certo de usuário
+                        if (this.usuario.TipoUsuario.ToLower() == "comprador")
+                        {
+                            this.usuario = new Comprador(this.usuario.nome, this.usuario.id, this.usuario.email, this.usuario.telefone, "", "");
+                        }
+
+                        break;
+                    }
+
+                } while (true);
             }
         }
 
@@ -143,19 +172,37 @@ namespace SistemaArte
             campos.Add("Tipo do Cartão (Crédito/Débito)          : ");
 
             int linhaExtra = this.linha + this.dados.Count + 5;
-            this.tela.MontarJanela("Dados do Comprador", campos, this.coluna, linhaExtra, this.largura);
 
-            Console.SetCursorPosition(this.coluna + campos[0].Length + 1, linhaExtra + 2);
-            c.numeroCartao = Console.ReadLine();
+            do
+            {
+                this.tela.MontarJanela("Dados do Comprador", campos, this.coluna, linhaExtra, this.largura);
 
-            Console.SetCursorPosition(this.coluna + campos[1].Length + 1, linhaExtra + 3);
-            c.nomeBanco = Console.ReadLine();
+                Console.SetCursorPosition(this.coluna + campos[0].Length + 1, linhaExtra + 2);
+                c.numeroCartao = Console.ReadLine();
 
-            Console.SetCursorPosition(this.coluna + campos[2].Length + 1, linhaExtra + 4);
-            c.tipoCartao = Console.ReadLine();
+                Console.SetCursorPosition(this.coluna + campos[1].Length + 1, linhaExtra + 3);
+                c.nomeBanco = Console.ReadLine();
+
+                Console.SetCursorPosition(this.coluna + campos[2].Length + 1, linhaExtra + 4);
+                c.tipoCartao = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(c.numeroCartao) ||
+                    string.IsNullOrWhiteSpace(c.nomeBanco) ||
+                    string.IsNullOrWhiteSpace(c.tipoCartao))
+                {
+                    this.tela.MostrarMensagem("Campos incompletos! Preencha todos os campos do comprador.");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    break;
+                }
+
+            } while (true);
 
             this.usuario = c;
         }
+
 
         public bool ProcurarCodigo()
         {

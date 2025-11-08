@@ -15,18 +15,15 @@ namespace SistemaArte
         public string observacoes;
         public DateTime dataAvaliacao;
 
-        // Propriedade compatível para o código que ainda acessa a.idObra
         public string idObra
         {
             get => obra?.idObra ?? idObraBackup ?? "";
             set
             {
-                // atualiza o backup (não cria uma Obra nova)
+
                 idObraBackup = value ?? "";
             }
         }
-
-        // Construtor principal por referência
         public Avaliar(Obra obra, string idCurador, double precoReserva, string observacoes, DateTime dataAvaliacao)
         {
             this.obra = obra ?? throw new ArgumentNullException(nameof(obra));
@@ -37,7 +34,6 @@ namespace SistemaArte
             this.dataAvaliacao = dataAvaliacao;
         }
 
-        // Construtor compatível (recebe apenas id da obra) — mantém compatibilidade com código antigo
         public Avaliar(string idObra, string idCurador, double precoReserva, string observacoes, DateTime dataAvaliacao)
         {
             this.obra = null;

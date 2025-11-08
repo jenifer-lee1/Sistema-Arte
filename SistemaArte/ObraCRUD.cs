@@ -67,7 +67,7 @@ namespace SistemaArte
                     }
                 }
             }
-            else 
+            else
             {
                 this.MostrarDados();
                 resp = this.tela.Perguntar("Deseja alterar, excluir ou voltar (A/E/V) : ");
@@ -104,24 +104,53 @@ namespace SistemaArte
             {
                 Console.SetCursorPosition(this.colunaDados, this.linhaDados);
                 this.obra.idObra = Console.ReadLine();
+                while (string.IsNullOrWhiteSpace(this.obra.idObra))
+                {
+                    this.tela.MostrarMensagem("Campo obrigatório! Digite o ID da Obra:");
+                    Console.SetCursorPosition(this.colunaDados, this.linhaDados);
+                    this.obra.idObra = Console.ReadLine();
+                }
             }
             else
             {
-                
                 int deslocamentoLinha = alteracao ? this.dados.Count + 2 : 0;
 
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 1);
-                this.obra.nome = Console.ReadLine();
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 2);
-                this.obra.autor = Console.ReadLine();
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 3);
-                this.obra.ano = Console.ReadLine();
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 4);
-                this.obra.numero = Console.ReadLine();
-                Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 5);
-                this.obra.estado = Console.ReadLine();
+                do
+                {
+                    Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 1);
+                    this.obra.nome = Console.ReadLine();
+
+                    Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 2);
+                    this.obra.autor = Console.ReadLine();
+
+                    Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 3);
+                    this.obra.ano = Console.ReadLine();
+
+                    Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 4);
+                    this.obra.numero = Console.ReadLine();
+
+                    Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 5);
+                    this.obra.estado = Console.ReadLine();
+
+                    // Verifica se algum campo está vazio
+                    if (string.IsNullOrWhiteSpace(this.obra.nome) ||
+                        string.IsNullOrWhiteSpace(this.obra.autor) ||
+                        string.IsNullOrWhiteSpace(this.obra.ano) ||
+                        string.IsNullOrWhiteSpace(this.obra.numero) ||
+                        string.IsNullOrWhiteSpace(this.obra.estado))
+                    {
+                        this.tela.MostrarMensagem("Campos incompletos! Preencha todos os campos corretamente.");
+                        Console.ReadKey();
+                        this.tela.MontarJanela("Cadastro de Obras", this.dados, this.coluna, this.linha, this.largura);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                } while (true);
             }
         }
+
 
 
         public bool ProcurarCodigo()
