@@ -187,6 +187,12 @@ namespace SistemaArte
             this.tela.MostrarMensagem("");
             this.tela.MostrarMensagem("Pressione uma tecla para continuar...");
             Console.ReadKey();
+
+            int linhaFim = linhaAtual + 3; // margem para mensagem/linhas extras
+            this.tela.ApagarArea(this.coluna, this.linha, this.coluna + this.largura, linhaFim);
+
+            // garante que o cursor volte para posição do menu (opcional)
+            Console.SetCursorPosition(this.coluna, this.linha);
         }
 
         // Listagem de Lances
@@ -215,7 +221,7 @@ namespace SistemaArte
             this.tela.MostrarMensagem("");
             this.tela.MostrarMensagem("Pressione uma tecla para continuar...");
             Console.ReadKey();
-            this.tela.ApagarArea(0, 0, Console.WindowWidth, Console.WindowHeight);
+
         }
 
         // Obter o maior lance de uma obra
