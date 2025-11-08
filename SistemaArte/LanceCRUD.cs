@@ -44,17 +44,16 @@ namespace SistemaArte
             this.linhaDados = this.linha + 2;
         }
 
-        // 
-        // Menu Principal do CRUD
-        // 
+        // MENU PRINCIPAL
         public void ExecutarCRUD()
         {
             string opcao, resp;
             List<string> opcoesLance = new List<string>
             {
                 " LANCES ",
-                "1 - Registrar Lance ",
-                "2 - Listar Lances   ",
+                "1 - Listar Obras Avaliadas ",
+                "2 - Registrar Lance ",
+                "3 - Listar Lances   ",
                 "0 - Sair            "
             };
 
@@ -65,10 +64,14 @@ namespace SistemaArte
 
                 if (opcao == "1")
                 {
+                    this.ListarObrasAvaliadas();
+                }
+                else if (opcao == "2")
+                {
                     this.tela.MontarJanela("Registrar Lance", this.dados, this.coluna, this.linha, this.largura);
                     this.EntrarDados();
 
-                    //  Verifica comprador
+                    // Verifica comprador
                     Usuario usuario = usuarioCRUD.ObterUsuarioPorCodigo(this.lance.cod);
                     if (usuario == null)
                     {
@@ -114,7 +117,7 @@ namespace SistemaArte
 
                     this.tela.ApagarArea(this.coluna, this.linha, this.coluna + this.largura, this.linha + this.dados.Count + 2);
                 }
-                else if (opcao == "2")
+                else if (opcao == "3")
                 {
                     this.ListarLances();
                 }
@@ -126,9 +129,7 @@ namespace SistemaArte
             }
         }
 
-        // 
         // Entrada de dados
-        // 
         public void EntrarDados()
         {
             Console.SetCursorPosition(this.colunaDados, this.linhaDados);
@@ -148,9 +149,47 @@ namespace SistemaArte
                 this.lance.dataLance = DateTime.Parse(data);
         }
 
-        // 
-        // Listagem
-        // 
+        // ========================
+        // LISTAR OBRAS AVALIADAS
+        // ========================
+        public void ListarObrasAvaliadas()
+        {
+            this.tela.PrepararTela("Obras Avaliadas");
+            Console.SetCursorPosition(1, 3);
+            Console.Write("ID".PadRight(6));
+            Console.Write("NOME".PadRight(30));
+            Console.Write("AUTOR".PadRight(20));
+            Console.Write("PREÇO (R$)");
+            Console.SetCursorPosition(1, 4);
+            Console.WriteLine("---------------------------------------------------------------");
+
+            int linhaAtual = 5;
+
+            foreach (Avaliar avaliacao in this.avaliarCRUD.avaliacoes)
+            {
+                if (avaliacao.obra == null) continue;
+
+                Console.SetCursorPosition(1, linhaAtual);
+                Console.Write(avaliacao.obra.idObra.PadRight(6));
+
+                Console.SetCursorPosition(7, linhaAtual);
+                Console.Write(avaliacao.obra.nome.PadRight(30));
+
+                Console.SetCursorPosition(38, linhaAtual);
+                Console.Write(avaliacao.obra.autor.PadRight(20));
+
+                Console.SetCursorPosition(60, linhaAtual);
+                Console.Write($"R$ {avaliacao.precoReserva:F2}");
+                linhaAtual++;
+            }
+
+            Console.SetCursorPosition(1, linhaAtual + 2);
+            this.tela.MostrarMensagem("");
+            this.tela.MostrarMensagem("Pressione uma tecla para continuar...");
+            Console.ReadKey();
+        }
+
+        // Listagem de Lances
         public void ListarLances()
         {
             this.tela.PrepararTela("Listagem de Lances");
@@ -176,11 +215,10 @@ namespace SistemaArte
             this.tela.MostrarMensagem("");
             this.tela.MostrarMensagem("Pressione uma tecla para continuar...");
             Console.ReadKey();
+            this.tela.ApagarArea(0, 0, Console.WindowWidth, Console.WindowHeight);
         }
 
-        // 
         // Obter o maior lance de uma obra
-        // 
         public Lance ObterMaiorLance(string idObra)
         {
             Lance maior = null;
