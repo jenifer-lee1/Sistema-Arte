@@ -20,14 +20,14 @@ public class AvaliarCRUD
         this.posicao = -1;
         this.dados = new List<string>();
 
-        this.dados.Add("Id                                              : ");
-        this.dados.Add("Nome da Obra                                    : ");
-        this.dados.Add("Autor                                          : ");
+        this.dados.Add("Id                                               : ");
+        this.dados.Add("Nome da Obra                                     : ");
+        this.dados.Add("Autor                                            : ");
         this.dados.Add("Ano de criação                                   : ");
         this.dados.Add("Número do Certificado de Autenticidade           : ");
         this.dados.Add("Estado da Obra (Original/Restaurada/Réplica)     : ");
 
-        this.dados.Add("ID do Curador                                   : ");
+        this.dados.Add("ID do Curador                                    : ");
         this.dados.Add("Preço de Reserva                                 : ");
         this.dados.Add("Observações                                      : ");
 

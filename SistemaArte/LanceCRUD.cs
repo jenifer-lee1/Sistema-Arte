@@ -154,45 +154,53 @@ namespace SistemaArte
         // ========================
         public void ListarObrasAvaliadas()
         {
-            this.tela.PrepararTela("Obras Avaliadas");
-            Console.SetCursorPosition(1, 3);
-            Console.Write("ID".PadRight(6));
-            Console.Write("NOME".PadRight(30));
-            Console.Write("AUTOR".PadRight(20));
-            Console.Write("PREÇO (R$)");
-            Console.SetCursorPosition(1, 4);
-            Console.WriteLine("---------------------------------------------------------------");
+            // Cabeçalho da janela
+            List<string> cabecalho = new List<string>()
+    {
+        "ID".PadRight(6) + " " +
+        "NOME".PadRight(30) +
+        "AUTOR".PadRight(20) +
+        "PREÇO (R$)"
+    };
 
-            int linhaAtual = 5;
+            // Prepara a moldura igual à do Registrar Lance
+            this.tela.MontarMoldura(this.coluna, this.linha, this.coluna + this.largura, this.linha + 15);
+            this.tela.Centralizar(this.coluna, this.coluna + this.largura, this.linha + 1, "Obras Avaliadas");
 
+            // Linha de títulos
+            int linhaAtual = this.linha + 3;
+            Console.SetCursorPosition(this.coluna + 2, linhaAtual);
+            Console.Write(cabecalho[0]);
+            linhaAtual++;
+
+            // Linha separadora
+            Console.SetCursorPosition(this.coluna + 2, linhaAtual);
+            Console.Write(new string('-', 70));
+            linhaAtual++;
+
+            // Dados das obras avaliadas
             foreach (Avaliar avaliacao in this.avaliarCRUD.avaliacoes)
             {
                 if (avaliacao.obra == null) continue;
 
-                Console.SetCursorPosition(1, linhaAtual);
+                Console.SetCursorPosition(this.coluna + 2, linhaAtual);
                 Console.Write(avaliacao.obra.idObra.PadRight(6));
 
-                Console.SetCursorPosition(7, linhaAtual);
+                Console.SetCursorPosition(this.coluna + 10, linhaAtual);
                 Console.Write(avaliacao.obra.nome.PadRight(30));
 
-                Console.SetCursorPosition(38, linhaAtual);
+                Console.SetCursorPosition(this.coluna + 42, linhaAtual);
                 Console.Write(avaliacao.obra.autor.PadRight(20));
 
-                Console.SetCursorPosition(60, linhaAtual);
+                Console.SetCursorPosition(this.coluna + 64, linhaAtual);
                 Console.Write($"R$ {avaliacao.precoReserva:F2}");
+
                 linhaAtual++;
             }
 
-            Console.SetCursorPosition(1, linhaAtual + 2);
-            this.tela.MostrarMensagem("");
-            this.tela.MostrarMensagem("Pressione uma tecla para continuar...");
+            // Mensagem final
+            this.tela.MostrarMensagem(this.coluna + 20, this.linha + 16, "Pressione uma tecla para continuar...");
             Console.ReadKey();
-
-            int linhaFim = linhaAtual + 3; // margem para mensagem/linhas extras
-            this.tela.ApagarArea(this.coluna, this.linha, this.coluna + this.largura, linhaFim);
-
-            // garante que o cursor volte para posição do menu (opcional)
-            Console.SetCursorPosition(this.coluna, this.linha);
         }
 
         // Listagem de Lances

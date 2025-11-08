@@ -36,6 +36,11 @@
 
     public void PrepararTela(string titulo = "")
     {
+        int alturaConsole = Console.BufferHeight;
+        if (this.linhaInicial + this.altura >= alturaConsole)
+        {
+            this.altura = alturaConsole - this.linhaInicial - 1;
+        }
         this.MontarMoldura(this.colunaInicial, this.linhaInicial, this.colunaInicial + this.largura, this.linhaInicial + this.altura);
 
         if (this.telaCheia)
