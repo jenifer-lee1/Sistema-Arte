@@ -51,7 +51,7 @@ namespace SistemaArte
             List<string> opcoesLance = new List<string>
             {
                 " LANCES ",
-                "1 - Listar Obras Avaliadas ",
+                "1 - Obras Disponíveis ",
                 "2 - Registrar Lance ",
                 "3 - Listar Lances   ",
                 "0 - Sair            "
@@ -65,6 +65,7 @@ namespace SistemaArte
                 if (opcao == "1")
                 {
                     this.ListarObrasAvaliadas();
+
                 }
                 else if (opcao == "2")
                 {
@@ -156,16 +157,16 @@ namespace SistemaArte
         {
             // Cabeçalho da janela
             List<string> cabecalho = new List<string>()
-    {
-        "ID".PadRight(6) + " " +
-        "NOME".PadRight(30) +
-        "AUTOR".PadRight(20) +
-        "PREÇO (R$)"
-    };
+        {
+         "ID".PadRight(6) + " " +
+         "NOME".PadRight(30) +
+         "AUTOR".PadRight(20) +
+         "PREÇO (R$)"
+         };
 
             // Prepara a moldura igual à do Registrar Lance
             this.tela.MontarMoldura(this.coluna, this.linha, this.coluna + this.largura, this.linha + 15);
-            this.tela.Centralizar(this.coluna, this.coluna + this.largura, this.linha + 1, "Obras Avaliadas");
+            this.tela.Centralizar(this.coluna, this.coluna + this.largura, this.linha + 1, "Obras Disponíveis");
 
             // Linha de títulos
             int linhaAtual = this.linha + 3;
@@ -199,7 +200,8 @@ namespace SistemaArte
             }
 
             // Mensagem final
-            this.tela.MostrarMensagem(this.coluna + 20, this.linha + 16, "Pressione uma tecla para continuar...");
+            this.tela.MostrarMensagem("");
+            this.tela.MostrarMensagem("Pressione uma tecla para continuar...");
             Console.ReadKey();
         }
 
