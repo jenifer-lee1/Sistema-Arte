@@ -5,8 +5,7 @@ public class Lance
     public string idObra;
     public string valor;
     public DateTime dataLance;
-    //public DateTime dataDevolucao;
-    //public DateTime? dataDevolvido;
+
 
     public Lance(int id, string cod, string valor, DateTime dataLance)
     {
@@ -15,11 +14,9 @@ public class Lance
         this.cod = cod;
         this.valor = valor;
         this.dataLance = dataLance;
-        //this.dataDevolucao = dataDevolucao;
-        //this.dataDevolvido = dataDevolvido;
     }
 
-    // New constructor including obra id
+
     public Lance(int id, string idObra, string cod, string valor, DateTime dataLance)
     {
         this.id = id;
@@ -35,7 +32,5 @@ public class Lance
         this.idObra = "";
         this.valor = "";
         this.dataLance = DateTime.MinValue;
-        //this.dataDevolucao = DateTime.MinValue;
-        //this.dataDevolvido = null;
     }
 }

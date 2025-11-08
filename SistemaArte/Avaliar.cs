@@ -4,7 +4,7 @@ namespace SistemaArte
 {
     public class Avaliar
     {
-        // referência à obra (pode ser nula se a avaliação foi criada apenas com id)
+        // referente à obra (pode ser nula se a avaliação foi criada apenas com id)
         public Obra? obra;
 
         // backup do id da obra (usado quando a instância não tem a referência 'obra')
@@ -26,7 +26,7 @@ namespace SistemaArte
             }
         }
 
-        // Construtor principal por referência (recomendado)
+        // Construtor principal por referência
         public Avaliar(Obra obra, string idCurador, double precoReserva, string observacoes, DateTime dataAvaliacao)
         {
             this.obra = obra ?? throw new ArgumentNullException(nameof(obra));
@@ -48,7 +48,7 @@ namespace SistemaArte
             this.dataAvaliacao = dataAvaliacao;
         }
 
-        // Construtor padrão
+        // Construtor 
         public Avaliar()
         {
             this.obra = null;

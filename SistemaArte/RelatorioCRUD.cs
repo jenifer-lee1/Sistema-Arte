@@ -53,7 +53,7 @@ namespace SistemaArte
             }
         }
 
-        // RN-009 - Total de Lances por Obra
+
         private void MostrarTotalLancesPorObra()
         {
             this.tela.PrepararTela("Relatório: Total de Lances por Obra");
@@ -63,7 +63,7 @@ namespace SistemaArte
             var obras = obraCRUD.ListarObras();
             int linhaAtual = 5;
 
-            // Construir lista de DTOs para facilitar testes e reutilização
+     
             List<LancesPorObra> entries = new List<LancesPorObra>();
             foreach (var o in obras)
             {
@@ -71,7 +71,7 @@ namespace SistemaArte
                 entries.Add(new LancesPorObra(o.idObra, o.nome, totalLances));
             }
 
-            // Apresentar os DTOs
+         
             foreach (var e in entries)
             {
                 Console.SetCursorPosition(1, linhaAtual);
@@ -88,7 +88,7 @@ namespace SistemaArte
             Console.ReadKey();
         }
 
-        // RN-009 - Índice de Obras Vendidas (Taxa de Sucesso)
+   
         private void MostrarIndiceObrasVendidas()
         {
             this.tela.PrepararTela("Relatório: Índice de Obras Vendidas");
@@ -101,7 +101,7 @@ namespace SistemaArte
             if (totalObras > 0)
                 taxa = (vendidas / (double)totalObras) * 100.0;
 
-            // Usar DTO para facilitar testes e separação de responsabilidades
+
             TaxaSucesso dto = new TaxaSucesso(totalObras, vendidas, taxa);
 
             this.tela.MostrarMensagem(2, 4, $"Total de Obras: {dto.TotalObras}");

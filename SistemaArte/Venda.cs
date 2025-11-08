@@ -2,7 +2,7 @@ namespace SistemaArte
 {
     public class Venda
     {
-        private static int contador = 1; // gera IDs automáticos
+        private static int contador = 1; // gera o ID automático
 
         public int id;
         public string idObra;

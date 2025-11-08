@@ -13,7 +13,7 @@
     // métodos
     //
 
-    // Constutor usado para "full screen"
+    // Constutor para full screen
     public Tela()
     {
         this.largura = 120;
@@ -104,7 +104,7 @@
 
         this.ApagarArea(ci, li, cf, lf);
 
-        // desenha as linhas horizontais
+        //  linhas horizontais
         for (col = ci; col < cf; col++)
         {
             // linha horizontal superior
@@ -115,18 +115,18 @@
             Console.Write("═");
         }
 
-        // desenha as linhas verticais
+        // linhas verticais
         for (lin = li; lin < lf; lin++)
         {
-            // desenha a linha vertical esquerda
+            // linha vertical esquerda
             Console.SetCursorPosition(ci, lin);
             Console.Write("║");
-            // desenha a linha vertical direita
+            // linha vertical direita
             Console.SetCursorPosition(cf, lin);
             Console.Write("║");
         }
 
-        // desenha os cantos
+        // cantos
         Console.SetCursorPosition(ci, li);
         Console.Write("╔");
 

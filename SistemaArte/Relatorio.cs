@@ -2,7 +2,7 @@ using System;
 
 namespace SistemaArte
 {
-    // DTO para o relatório "Total de Lances por Obra"
+    // relatório "Total de Lances por Obra"
     public class LancesPorObra
     {
         public string IdObra { get; set; }
@@ -17,7 +17,7 @@ namespace SistemaArte
         }
     }
 
-    // DTO para o relatório "Índice de Obras Vendidas" (Taxa de Sucesso)
+    // relatório "Índice de Obras Vendidas" (Taxa de Sucesso)
     public class TaxaSucesso
     {
         public int TotalObras { get; set; }

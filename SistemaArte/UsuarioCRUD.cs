@@ -133,7 +133,7 @@ namespace SistemaArte
             }
         }
 
-        // ✅ Tela extra para COMPRADOR (agora com tipo de cartão)
+        // Tela extra para COMPRADOR (com tipo de cartão)
         public void EntrarDadosComprador()
         {
             Comprador c = (Comprador)this.usuario;
@@ -179,7 +179,7 @@ namespace SistemaArte
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 3, this.usuarios[this.posicao].telefone);
             this.tela.MostrarMensagem(this.colunaDados, this.linhaDados + 4, this.usuarios[this.posicao].TipoUsuario);
 
-            // ✅ Se for COMPRADOR, mostra moldura extra com os dados bancários
+            // Se for COMPRADOR, mostra moldura extra com os dados bancários
             if (this.usuarios[this.posicao] is Comprador comp)
             {
                 List<string> camposComprador = new List<string>();

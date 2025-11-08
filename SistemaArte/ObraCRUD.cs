@@ -67,7 +67,7 @@ namespace SistemaArte
                     }
                 }
             }
-            else // if (achou)
+            else 
             {
                 this.MostrarDados();
                 resp = this.tela.Perguntar("Deseja alterar, excluir ou voltar (A/E/V) : ");
@@ -107,7 +107,7 @@ namespace SistemaArte
             }
             else
             {
-                // se for alteração, desloca a linha para a "segunda tela"
+                
                 int deslocamentoLinha = alteracao ? this.dados.Count + 2 : 0;
 
                 Console.SetCursorPosition(this.colunaDados, this.linhaDados + deslocamentoLinha + 1);
